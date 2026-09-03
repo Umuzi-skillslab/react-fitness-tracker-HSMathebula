@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
+import ExerciseDetail from '../components/Exercise/ExerciseDetail';
 import Header from '../components/common/Header';
-import Badge from '../components/UI/Badge';
 import Button from '../components/UI/Button';
 import Card from '../components/UI/Card';
 import { exercisesData } from '../data/exercisesData';
@@ -27,26 +27,11 @@ function ExerciseDetailPage() {
   }
 
   return (
-    <section>
-      <Header title={exercise.name} subtitle={exercise.muscleGroup}>
-        <div className={styles.meta}>
-          <Badge label={exercise.difficulty} difficulty={exercise.difficulty} isActive />
-          <Badge label={exercise.category} />
-        </div>
-      </Header>
-
-      <Card title="Form cues">
-        {exercise.instructions.map((step) => (
-          <p key={step}>{step}</p>
-        ))}
-        <div className={styles.actions}>
-          <Button onClick={() => navigate('/planner')}>Add to planner</Button>
-          <Button variant="secondary" onClick={() => navigate('/exercises')}>
-            Back to library
-          </Button>
-        </div>
-      </Card>
-    </section>
+    <ExerciseDetail
+      exercise={exercise}
+      onAddToPlan={() => navigate('/planner')}
+      onBack={() => navigate('/exercises')}
+    />
   );
 }
 

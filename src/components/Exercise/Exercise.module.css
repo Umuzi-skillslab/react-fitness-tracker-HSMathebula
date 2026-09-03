@@ -1,0 +1,89 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.preview {
+  min-height: 3.2rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.field select {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: #fff;
+  padding: 0.65rem 0.75rem;
+  color: var(--color-text);
+}
+
+.field select:hover,
+.field select:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+.filterActions {
+  display: flex;
+  align-items: flex-end;
+}
+
+.steps {
+  margin: 0 0 var(--space-4);
+  padding-left: 1.2rem;
+  color: var(--color-text-muted);
+}
+
+.steps li {
+  margin-bottom: var(--space-2);
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .filters {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .filters {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}

@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ExerciseList from '../components/Exercise/ExerciseList';
 import Header from '../components/common/Header';
-import Badge from '../components/UI/Badge';
 import Button from '../components/UI/Button';
-import Card from '../components/UI/Card';
 import SearchBar from '../components/UI/SearchBar';
 import { exercisesData } from '../data/exercisesData';
 import { filterExercises } from '../utils/helpers';
@@ -16,10 +15,6 @@ function Home() {
 
   const featured = filterExercises(exercisesData, { search: query }).slice(0, 3);
 
-  const handleSearchChange = (event) => {
-    setQuery(event.target.value);
-  };
-
   return (
     <section>
       <Header
@@ -31,45 +26,25 @@ function Home() {
       </Header>
 
       <div className={styles.toolbar}>
-        <SearchBar value={query} onChange={handleSearchChange} />
+        <SearchBar
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+        />
         <Button variant="secondary" onClick={() => navigate('/exercises')}>
           Browse all exercises
         </Button>
       </div>
 
-      {featured.length === 0 ? (
-        <Card title="No matches" elevated={false} padding="1.25rem">
-          <p>No exercises match your search.</p>
-        </Card>
-      ) : (
-        <div className={styles.grid}>
-          {featured.map((exercise) => (
-            <Card
-              key={exercise.id}
-              title={exercise.name}
-              padding={query ? '1.15rem' : '1.5rem'}
-              isSelected={selectedId === exercise.id}
-            >
-              <div className={styles.meta}>
-                <Badge label={exercise.difficulty} difficulty={exercise.difficulty} />
-                <Badge label={exercise.category} />
-              </div>
-              <p>{exercise.instructions[0]}</p>
-              <div className={styles.actions}>
-                <Button onClick={() => navigate(`/exercises/${exercise.id}`)}>
-                  View details
-                </Button>
-                <Button
-                  variant="secondary"
-                  onClick={() => setSelectedId(exercise.id)}
-                >
-                  Select
-                </Button>
-              </div>
-            </Card>
-          ))}
-        </div>
-      )}
+      <ExerciseList
+        exercises={featured}
+        selectedId={selectedId}
+        emptyMessage="No featured exercises match your search."
+        onSelect={(exercise) => {
+          setSelectedId(exercise.id);
+          navigate(`/exercises/${exercise.id}`);
+        }}
+        onAddToPlan={() => navigate('/planner')}
+      />
     </section>
   );
 }
