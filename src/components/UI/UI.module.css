@@ -167,6 +167,18 @@
   outline: none;
 }
 
+@media (max-width: 599px) {
+  .search {
+    flex: 0 0 auto;
+    max-width: 100%;
+    border-radius: 12px;
+  }
+
+  .search input {
+    padding: 0.55rem 0.85rem;
+  }
+}
+
 .overlay {
   position: fixed;
   inset: 0;

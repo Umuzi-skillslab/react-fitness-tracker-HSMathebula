@@ -257,9 +257,8 @@
 
 .todayItem {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: stretch;
   gap: var(--space-3);
   padding-bottom: var(--space-3);
   border-bottom: 1px solid var(--color-border);
@@ -268,6 +267,20 @@
 .todayItem:last-child {
   padding-bottom: 0;
   border-bottom: 0;
+}
+
+.todayCopy {
+  min-width: 0;
+}
+
+.todayActions {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--space-2);
+}
+
+.todayActions button {
+  flex: 1 1 0;
 }
 
 .todayName {
@@ -397,6 +410,21 @@
     grid-template-columns: 1.15fr 0.85fr;
     gap: 2.5rem;
   }
+
+  .todayItem {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .todayActions {
+    flex: 0 0 auto;
+    width: auto;
+  }
+
+  .todayActions button {
+    flex: 0 0 auto;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -444,6 +472,12 @@
   .toolbar {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .toolbar > * {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: none;
   }
 
   .controls {

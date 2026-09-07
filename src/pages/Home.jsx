@@ -118,7 +118,7 @@ function Home() {
                   exercise.done ? styles.todayItemDone : ''
                 }`}
               >
-                <div>
+                <div className={styles.todayCopy}>
                   <p className={styles.todayName}>{exercise.name}</p>
                   <p className={styles.todayMeta}>
                     {[exercise.muscleGroup, exercise.difficulty]
@@ -126,7 +126,7 @@ function Home() {
                       .join(' · ')}
                   </p>
                 </div>
-                <div className={styles.actions}>
+                <div className={styles.todayActions}>
                   <Button
                     variant="secondary"
                     onClick={() => toggleDone(today, exercise.id)}
