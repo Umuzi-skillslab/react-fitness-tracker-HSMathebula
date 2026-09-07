@@ -1,13 +1,19 @@
 import {
   WEEK_DAYS,
+  addExerciseToDay,
   calculateVolume,
+  cloneValue,
   computeProgressTotals,
   createEmptyPlan,
+  createWorkoutLog,
   filterExercises,
   getExerciseById,
+  getTodayDate,
   getUniqueValues,
   groupLogsByDate,
   loadFromStorage,
+  normalizePlan,
+  removeExerciseFromDay,
   saveToStorage,
   sortExercises,
 } from './helpers';
@@ -88,6 +94,39 @@ describe('planner and progress helpers', () => {
     const plan = createEmptyPlan();
     expect(Object.keys(plan)).toEqual(WEEK_DAYS);
     expect(plan.Monday).toEqual([]);
+  });
+
+  test('adds and removes an exercise on a weekday', () => {
+    const exercise = { id: 2, name: 'Push-Up', difficulty: 'Beginner' };
+    const plan = addExerciseToDay(createEmptyPlan(), 'Monday', exercise);
+
+    expect(plan.Monday).toHaveLength(1);
+    expect(addExerciseToDay(plan, 'Monday', exercise).Monday).toHaveLength(1);
+    expect(removeExerciseFromDay(plan, 'Monday', 2).Monday).toEqual([]);
+  });
+
+  test('normalizes a partial stored plan', () => {
+    expect(normalizePlan({ Monday: [{ id: 1, name: 'Push-Up' }] }).Monday[0].name).toBe(
+      'Push-Up'
+    );
+    expect(normalizePlan(null).Sunday).toEqual([]);
+  });
+
+  test('creates a workout log and clones values', () => {
+    const log = createWorkoutLog({
+      exerciseId: '2',
+      exerciseName: 'Push-Up',
+      date: '2026-09-01',
+      sets: '3',
+      reps: '12',
+      weight: '0',
+    });
+
+    expect(log.id).toMatch(/^log-/);
+    expect(log.exerciseId).toBe(2);
+    expect(getTodayDate()).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(cloneValue({ a: 1 })).toEqual({ a: 1 });
+    expect(cloneValue('ok')).toBe('ok');
   });
 
   test('calculates volume and progress totals', () => {

@@ -43,4 +43,24 @@ describe('ExerciseDetail', () => {
     expect(screen.getByRole('dialog')).toBeInTheDocument();
     expect(screen.getByText(/step 1:/i)).toBeInTheDocument();
   });
+
+  test('sends the exercise to the planner callback', async () => {
+    const user = userEvent.setup();
+    const handleAdd = jest.fn();
+    const handleBack = jest.fn();
+
+    render(
+      <ExerciseDetail
+        exercise={exercise}
+        onAddToPlan={handleAdd}
+        onBack={handleBack}
+      />
+    );
+
+    await user.click(screen.getByRole('button', { name: /add to planner/i }));
+    await user.click(screen.getByRole('button', { name: /back to library/i }));
+
+    expect(handleAdd).toHaveBeenCalledWith(exercise);
+    expect(handleBack).toHaveBeenCalled();
+  });
 });

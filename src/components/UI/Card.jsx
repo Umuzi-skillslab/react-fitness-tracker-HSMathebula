@@ -14,7 +14,11 @@ function Card({
   }`;
 
   return (
-    <article className={className} style={{ padding }} onClick={onClick}>
+    <article
+      className={className}
+      style={{ '--card-padding': padding }}
+      onClick={onClick}
+    >
       {title ? <h3 className={styles.cardTitle}>{title}</h3> : null}
       {children}
     </article>

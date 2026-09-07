@@ -1,0 +1,48 @@
+.player {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.video {
+  width: 100%;
+  max-height: 22rem;
+  border-radius: calc(var(--radius) - 4px);
+  background: #0f1c18;
+  object-fit: cover;
+}
+
+.audio {
+  width: 100%;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.trackLabel {
+  margin: 0;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.trackPicker {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 600;
+}
+
+.trackSelect {
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: #fff;
+  padding: 0.5rem 0.75rem;
+}
+
+.error {
+  margin: 0;
+  color: var(--color-danger);
+}

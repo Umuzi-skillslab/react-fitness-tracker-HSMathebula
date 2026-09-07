@@ -122,3 +122,81 @@ export function computeProgressTotals(logs) {
     { workouts: 0, volume: 0 }
   );
 }
+
+export function normalizePlan(stored) {
+  const empty = createEmptyPlan();
+
+  if (!stored || typeof stored !== 'object') {
+    return empty;
+  }
+
+  WEEK_DAYS.forEach((day) => {
+    empty[day] = Array.isArray(stored[day]) ? stored[day] : [];
+  });
+
+  return empty;
+}
+
+export function addExerciseToDay(plan, day, exercise) {
+  const current = plan[day] || [];
+
+  if (current.some((item) => item.id === exercise.id)) {
+    return plan;
+  }
+
+  return {
+    ...plan,
+    [day]: [
+      ...current,
+      {
+        id: exercise.id,
+        name: exercise.name,
+        category: exercise.category,
+        muscleGroup: exercise.muscleGroup,
+        difficulty: exercise.difficulty,
+      },
+    ],
+  };
+}
+
+export function removeExerciseFromDay(plan, day, exerciseId) {
+  return {
+    ...plan,
+    [day]: (plan[day] || []).filter((item) => item.id !== exerciseId),
+  };
+}
+
+export function createLogId() {
+  return `log-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+export function createWorkoutLog({
+  exerciseId,
+  exerciseName,
+  date,
+  sets,
+  reps,
+  weight = 0,
+}) {
+  return {
+    id: createLogId(),
+    exerciseId: exerciseId == null ? null : Number(exerciseId),
+    exerciseName,
+    date,
+    sets: Number(sets),
+    reps: Number(reps),
+    weight: Number(weight) || 0,
+  };
+}
+
+export function getTodayDate() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+export function cloneValue(value) {
+  if (Array.isArray(value) || (value && typeof value === 'object')) {
+    return JSON.parse(JSON.stringify(value));
+  }
+
+  return value;
+}

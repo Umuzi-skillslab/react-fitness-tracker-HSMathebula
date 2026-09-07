@@ -8,7 +8,10 @@ function Loading({ message = 'Loading...', isOverlay = false, size = 36 }) {
       role="status"
       aria-live="polite"
     >
-      <span className={styles.spinner} style={{ width: size, height: size }} />
+      <span
+        className={styles.spinner}
+        style={{ '--spinner-size': `${size}px` }}
+      />
       <p>{message}</p>
     </div>
   );

@@ -1,48 +1,48 @@
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import LogForm from '../components/Log/LogForm';
+import WorkoutLog from '../components/Log/WorkoutLog';
 import Header from '../components/common/Header';
-import Button from '../components/UI/Button';
 import Card from '../components/UI/Card';
+import { exercisesData } from '../data/exercisesData';
+import useWorkoutLogs from '../hooks/useWorkoutLogs';
 import styles from './pages.module.css';
 
-export const sampleLogs = [
-  {
-    id: '1',
-    date: '2026-09-01',
-    exerciseName: 'Push-Up',
-    sets: 3,
-    reps: 12,
-    weight: 0,
-  },
-  {
-    id: '2',
-    date: '2026-09-02',
-    exerciseName: 'Barbell Squat',
-    sets: 4,
-    reps: 8,
-    weight: 60,
-  },
-];
-
 function HistoryPage() {
-  const navigate = useNavigate();
+  const location = useLocation();
+  const { logs, addLog, deleteLog } = useWorkoutLogs();
+  const [notice, setNotice] = useState('');
+
+  const handleSubmit = (entry) => {
+    addLog(entry);
+    setNotice(`Logged ${entry.exerciseName}.`);
+  };
 
   return (
     <section>
-      <Header title="Workout History" subtitle="Recent completed sessions">
-        <p>Open a log to use a dynamic route. Full logging arrives later.</p>
+      <Header
+        title="Workout History"
+        subtitle={`${logs.length} completed ${logs.length === 1 ? 'session' : 'sessions'}`}
+      >
+        <p>Record sets, reps, and weight. Logs stay in this browser.</p>
       </Header>
 
-      <div className={styles.grid}>
-        {sampleLogs.map((log) => (
-          <Card key={log.id} title={log.exerciseName}>
-            <p>
-              {log.date} · {log.sets} sets × {log.reps} reps
-            </p>
-            <Button onClick={() => navigate(`/history/${log.id}`)}>
-              View log
-            </Button>
-          </Card>
-        ))}
+      {notice ? (
+        <p className={styles.notice} role="status">
+          {notice}
+        </p>
+      ) : null}
+
+      <div className={styles.stack}>
+        <Card title="Log a workout" padding="1.25rem">
+          <LogForm
+            exercises={exercisesData}
+            initialExerciseId={location.state?.exerciseId}
+            onSubmit={handleSubmit}
+          />
+        </Card>
+
+        <WorkoutLog logs={logs} onDelete={deleteLog} />
       </div>
     </section>
   );

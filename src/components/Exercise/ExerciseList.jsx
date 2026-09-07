@@ -35,7 +35,16 @@ function ExerciseList({
 }
 
 ExerciseList.propTypes = {
-  exercises: PropTypes.arrayOf(PropTypes.object).isRequired,
+  exercises: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      category: PropTypes.string,
+      muscleGroup: PropTypes.string,
+      difficulty: PropTypes.string,
+      instructions: PropTypes.arrayOf(PropTypes.string),
+    })
+  ).isRequired,
   onSelect: PropTypes.func.isRequired,
   onAddToPlan: PropTypes.func,
   selectedId: PropTypes.number,

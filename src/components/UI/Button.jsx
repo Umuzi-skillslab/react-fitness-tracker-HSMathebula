@@ -18,10 +18,6 @@ function Button({
       onClick={onClick}
       disabled={disabled}
       aria-label={ariaLabel}
-      style={{
-        opacity: disabled ? 0.6 : 1,
-        cursor: disabled ? 'not-allowed' : 'pointer',
-      }}
     >
       {children}
     </button>

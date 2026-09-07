@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import App from '../../App';
+import { STORAGE_KEYS, saveToStorage } from '../../utils/helpers';
 
 describe('routing', () => {
   test('navigates from the navbar to the exercises page', async () => {
@@ -30,6 +31,17 @@ describe('routing', () => {
   });
 
   test('renders a dynamic history detail route', () => {
+    saveToStorage(STORAGE_KEYS.WORKOUT_LOGS, [
+      {
+        id: '1',
+        date: '2026-09-01',
+        exerciseName: 'Push-Up',
+        sets: 3,
+        reps: 12,
+        weight: 0,
+      },
+    ]);
+
     render(
       <MemoryRouter initialEntries={['/history/1']}>
         <App />

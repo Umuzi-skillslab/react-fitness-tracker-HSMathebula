@@ -1,3 +1,6 @@
+// Shared CC0 clip used until per-exercise recordings are added.
+const DEMO_VIDEO_URL = '/assets/videos/exercise-demo.mp4';
+
 export const exercisesData = [
   {
     id: 1,
@@ -11,8 +14,8 @@ export const exercisesData = [
       'Lower until your thighs are at least parallel to the floor.',
       'Drive through your heels to stand tall without locking your knees.',
     ],
-    videoUrl: '/assets/videos/barbell-squat.mp4',
-    imageUrl: '/assets/images/barbell-squat.jpg',
+    videoUrl: DEMO_VIDEO_URL,
+    imageUrl: '/assets/images/barbell-squat.svg',
   },
   {
     id: 2,
@@ -26,8 +29,8 @@ export const exercisesData = [
       'Lower your chest toward the floor with elbows at about 45 degrees.',
       'Press back up until your arms are straight.',
     ],
-    videoUrl: '/assets/videos/push-up.mp4',
-    imageUrl: '/assets/images/push-up.jpg',
+    videoUrl: DEMO_VIDEO_URL,
+    imageUrl: '/assets/images/push-up.svg',
   },
   {
     id: 3,
@@ -41,8 +44,8 @@ export const exercisesData = [
       'Push the floor away and stand up, keeping the bar close to your body.',
       'Lower the bar with control by pushing your hips back.',
     ],
-    videoUrl: '/assets/videos/deadlift.mp4',
-    imageUrl: '/assets/images/deadlift.jpg',
+    videoUrl: DEMO_VIDEO_URL,
+    imageUrl: '/assets/images/deadlift.svg',
   },
   {
     id: 4,
@@ -56,8 +59,8 @@ export const exercisesData = [
       'Keep your hips level so your body forms a straight line.',
       'Hold the position while breathing steadily.',
     ],
-    videoUrl: '/assets/videos/plank.mp4',
-    imageUrl: '/assets/images/plank.jpg',
+    videoUrl: DEMO_VIDEO_URL,
+    imageUrl: '/assets/images/plank.svg',
   },
   {
     id: 5,
@@ -71,8 +74,8 @@ export const exercisesData = [
       'Jump just high enough for the rope to pass under your feet.',
       'Land softly on the balls of your feet and stay light.',
     ],
-    videoUrl: '/assets/videos/jump-rope.mp4',
-    imageUrl: '/assets/images/jump-rope.jpg',
+    videoUrl: DEMO_VIDEO_URL,
+    imageUrl: '/assets/images/jump-rope.svg',
   },
   {
     id: 6,
@@ -86,8 +89,8 @@ export const exercisesData = [
       'Press the bar straight overhead until your arms lock out.',
       'Lower the bar back to your shoulders with control.',
     ],
-    videoUrl: '/assets/videos/overhead-press.mp4',
-    imageUrl: '/assets/images/overhead-press.jpg',
+    videoUrl: DEMO_VIDEO_URL,
+    imageUrl: '/assets/images/overhead-press.svg',
   },
   {
     id: 7,
@@ -101,8 +104,8 @@ export const exercisesData = [
       'Perform a push-up, then jump your feet forward.',
       'Explode upward into a jump and repeat.',
     ],
-    videoUrl: '/assets/videos/burpee.mp4',
-    imageUrl: '/assets/images/burpee.jpg',
+    videoUrl: DEMO_VIDEO_URL,
+    imageUrl: '/assets/images/burpee.svg',
   },
   {
     id: 8,
@@ -116,8 +119,8 @@ export const exercisesData = [
       'Pull your chest toward the bar by driving your elbows down.',
       'Lower yourself under control until your arms are straight.',
     ],
-    videoUrl: '/assets/videos/pull-up.mp4',
-    imageUrl: '/assets/images/pull-up.jpg',
+    videoUrl: DEMO_VIDEO_URL,
+    imageUrl: '/assets/images/pull-up.svg',
   },
   {
     id: 9,
@@ -131,8 +134,8 @@ export const exercisesData = [
       'Keep your front knee stacked over your ankle.',
       'Push through the front heel to return to standing.',
     ],
-    videoUrl: '/assets/videos/reverse-lunge.mp4',
-    imageUrl: '/assets/images/reverse-lunge.jpg',
+    videoUrl: DEMO_VIDEO_URL,
+    imageUrl: '/assets/images/reverse-lunge.svg',
   },
   {
     id: 10,
@@ -146,8 +149,8 @@ export const exercisesData = [
       'Rotate your torso and bring the opposite elbow toward the opposite knee.',
       'Switch sides in a slow, controlled pedaling motion.',
     ],
-    videoUrl: '/assets/videos/bicycle-crunch.mp4',
-    imageUrl: '/assets/images/bicycle-crunch.jpg',
+    videoUrl: DEMO_VIDEO_URL,
+    imageUrl: '/assets/images/bicycle-crunch.svg',
   },
   {
     id: 11,
@@ -161,8 +164,8 @@ export const exercisesData = [
       'Press your heels toward the floor and relax your neck.',
       'Hold the stretch while keeping a long spine.',
     ],
-    videoUrl: '/assets/videos/downward-dog.mp4',
-    imageUrl: '/assets/images/downward-dog.jpg',
+    videoUrl: DEMO_VIDEO_URL,
+    imageUrl: '/assets/images/downward-dog.svg',
   },
   {
     id: 12,
@@ -176,8 +179,8 @@ export const exercisesData = [
       'Pull the weights toward your ribs and squeeze your shoulder blades.',
       'Lower the weights with control without rounding your back.',
     ],
-    videoUrl: '/assets/videos/bent-over-row.mp4',
-    imageUrl: '/assets/images/bent-over-row.jpg',
+    videoUrl: DEMO_VIDEO_URL,
+    imageUrl: '/assets/images/bent-over-row.svg',
   },
 ];
 

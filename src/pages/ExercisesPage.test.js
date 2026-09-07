@@ -41,4 +41,23 @@ describe('ExercisesPage', () => {
 
     expect(await screen.findByText(/no exercises match/i)).toBeInTheDocument();
   });
+
+  test('clears search when filters are reset', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <MemoryRouter>
+        <ExercisesPage />
+      </MemoryRouter>
+    );
+
+    const search = await screen.findByRole('searchbox');
+    await user.type(search, 'xyz-no-match');
+    expect(await screen.findByText(/no exercises match/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /reset filters/i }));
+    expect(
+      await screen.findByRole('heading', { name: /barbell squat/i })
+    ).toBeInTheDocument();
+  });
 });

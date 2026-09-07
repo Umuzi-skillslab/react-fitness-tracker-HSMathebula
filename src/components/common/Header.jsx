@@ -3,7 +3,7 @@ import styles from './common.module.css';
 
 function Header({ title, subtitle, children, align = 'left' }) {
   return (
-    <header className={styles.header} style={{ textAlign: align }}>
+    <header className={`${styles.header} ${styles[align] || styles.left}`}>
       <h1>{title}</h1>
       {subtitle ? <p className={styles.subtitle}>{subtitle}</p> : null}
       {children}

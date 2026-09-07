@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import Header from '../common/Header';
+import VideoPlayer from '../Media/VideoPlayer';
 import Badge from '../UI/Badge';
 import Button from '../UI/Button';
 import Card from '../UI/Card';
@@ -24,22 +25,32 @@ function ExerciseDetail({ exercise, onAddToPlan, onBack }) {
         </div>
       </Header>
 
-      <Card title="Form cues">
-        <ol className={styles.steps}>
-          {exercise.instructions.map((step) => (
-            <li key={step}>{step}</li>
-          ))}
-        </ol>
-        <div className={styles.actions}>
-          <Button onClick={onAddToPlan}>Add to planner</Button>
-          <Button variant="secondary" onClick={() => setIsChecklistOpen(true)}>
-            Open checklist
-          </Button>
-          <Button variant="secondary" onClick={onBack}>
-            Back to library
-          </Button>
-        </div>
-      </Card>
+      <div className={styles.stack}>
+        <Card title="Demonstration">
+          <VideoPlayer
+            src={exercise.videoUrl}
+            title={`${exercise.name} demonstration`}
+            poster={exercise.imageUrl}
+          />
+        </Card>
+
+        <Card title="Form cues">
+          <ol className={styles.steps}>
+            {exercise.instructions.map((step) => (
+              <li key={step}>{step}</li>
+            ))}
+          </ol>
+          <div className={styles.actions}>
+            <Button onClick={() => onAddToPlan(exercise)}>Add to planner</Button>
+            <Button variant="secondary" onClick={() => setIsChecklistOpen(true)}>
+              Open checklist
+            </Button>
+            <Button variant="secondary" onClick={onBack}>
+              Back to library
+            </Button>
+          </div>
+        </Card>
+      </div>
 
       <Modal
         isOpen={isChecklistOpen}
@@ -70,6 +81,8 @@ ExerciseDetail.propTypes = {
     muscleGroup: PropTypes.string,
     difficulty: PropTypes.string,
     instructions: PropTypes.arrayOf(PropTypes.string).isRequired,
+    videoUrl: PropTypes.string,
+    imageUrl: PropTypes.string,
   }).isRequired,
   onAddToPlan: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,

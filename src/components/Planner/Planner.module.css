@@ -1,0 +1,95 @@
+.week {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.dayHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.count {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.item:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.itemName {
+  margin: 0;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.empty {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.itemActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.composer {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.field select,
+.daySelect {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: #fff;
+  padding: 0.65rem 0.75rem;
+}
+
+.composerActions {
+  display: flex;
+  align-items: flex-end;
+}
+
+@media (min-width: 768px) {
+  .week {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .composer {
+    grid-template-columns: 1fr 1.4fr auto;
+    align-items: end;
+  }
+}
+
+@media (min-width: 1024px) {
+  .week {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

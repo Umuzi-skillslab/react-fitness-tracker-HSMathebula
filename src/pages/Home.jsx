@@ -1,16 +1,21 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ExerciseList from '../components/Exercise/ExerciseList';
+import AudioPlayer from '../components/Media/AudioPlayer';
+import AddToPlanModal from '../components/Planner/AddToPlanModal';
 import Header from '../components/common/Header';
 import Button from '../components/UI/Button';
+import Card from '../components/UI/Card';
 import SearchBar from '../components/UI/SearchBar';
-import { exercisesData } from '../data/exercisesData';
+import { audioTracks, exercisesData } from '../data/exercisesData';
 import { filterExercises } from '../utils/helpers';
 import styles from './pages.module.css';
 
 function Home() {
   const [query, setQuery] = useState('');
   const [selectedId, setSelectedId] = useState(null);
+  const [pendingExercise, setPendingExercise] = useState(null);
+  const [notice, setNotice] = useState('');
   const navigate = useNavigate();
 
   const featured = filterExercises(exercisesData, { search: query }).slice(0, 3);
@@ -24,6 +29,16 @@ function Home() {
       >
         <p>Build strength, plan your week, and track progress.</p>
       </Header>
+
+      {notice ? (
+        <p className={styles.notice} role="status">
+          {notice}
+        </p>
+      ) : null}
+
+      <Card title="Motivation mix" padding="1.25rem">
+        <AudioPlayer tracks={audioTracks} />
+      </Card>
 
       <div className={styles.toolbar}>
         <SearchBar
@@ -43,7 +58,19 @@ function Home() {
           setSelectedId(exercise.id);
           navigate(`/exercises/${exercise.id}`);
         }}
-        onAddToPlan={() => navigate('/planner')}
+        onAddToPlan={setPendingExercise}
+      />
+
+      <AddToPlanModal
+        exercise={pendingExercise}
+        onClose={() => setPendingExercise(null)}
+        onAdded={(exercise, day, result) =>
+          setNotice(
+            result?.exists
+              ? `${exercise.name} is already on ${day}.`
+              : `Added ${exercise.name} to ${day}.`
+          )
+        }
       />
     </section>
   );

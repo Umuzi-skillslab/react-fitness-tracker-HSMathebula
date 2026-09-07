@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ExerciseFilter from '../components/Exercise/ExerciseFilter';
 import ExerciseList from '../components/Exercise/ExerciseList';
+import AddToPlanModal from '../components/Planner/AddToPlanModal';
 import Header from '../components/common/Header';
 import Loading from '../components/common/Loading';
 import SearchBar from '../components/UI/SearchBar';
@@ -25,6 +26,8 @@ function ExercisesPage() {
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState(INITIAL_FILTERS);
   const [selectedId, setSelectedId] = useState(null);
+  const [pendingExercise, setPendingExercise] = useState(null);
+  const [notice, setNotice] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -53,6 +56,12 @@ function ExercisesPage() {
         <p>Search, filter, and sort the catalog, then open a movement for form cues.</p>
       </Header>
 
+      {notice ? (
+        <p className={styles.notice} role="status">
+          {notice}
+        </p>
+      ) : null}
+
       <div className={styles.toolbar}>
         <SearchBar
           value={search}
@@ -66,7 +75,10 @@ function ExercisesPage() {
         muscleGroups={getUniqueValues(exercisesData, 'muscleGroup')}
         difficulties={getUniqueValues(exercisesData, 'difficulty')}
         onFilterChange={setFilters}
-        onReset={() => setFilters(INITIAL_FILTERS)}
+        onReset={() => {
+          setSearch('');
+          setFilters(INITIAL_FILTERS);
+        }}
       />
 
       {isLoading ? (
@@ -76,9 +88,21 @@ function ExercisesPage() {
           exercises={visibleExercises}
           selectedId={selectedId}
           onSelect={handleSelect}
-          onAddToPlan={() => navigate('/planner')}
+          onAddToPlan={setPendingExercise}
         />
       )}
+
+      <AddToPlanModal
+        exercise={pendingExercise}
+        onClose={() => setPendingExercise(null)}
+        onAdded={(exercise, day, result) =>
+          setNotice(
+            result?.exists
+              ? `${exercise.name} is already on ${day}.`
+              : `Added ${exercise.name} to ${day}.`
+          )
+        }
+      />
     </section>
   );
 }

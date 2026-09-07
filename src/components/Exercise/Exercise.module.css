@@ -1,3 +1,9 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr;
