@@ -12,7 +12,7 @@ function NotFound() {
       <Header title="404" subtitle="Page not found" align="center" />
       <Card padding="1.75rem">
         <p>That route is not part of FitTrack.</p>
-        <div className={styles.actions} style={{ justifyContent: 'center' }}>
+        <div className={styles.actionsCenter}>
           <Button onClick={() => navigate('/')}>Go home</Button>
           <Button variant="secondary" onClick={() => navigate('/exercises')}>
             Browse exercises

@@ -13,9 +13,9 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
-  max-width: 1100px;
+  max-width: var(--page-max);
   margin: 0 auto;
-  padding: 0.85rem var(--space-4);
+  padding: 0.85rem var(--page-pad-x);
 }
 
 .brand {
@@ -25,6 +25,7 @@
   font-weight: 700;
   letter-spacing: 0.03em;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .brand:hover {
@@ -41,7 +42,7 @@
 .link {
   color: #d5e0db;
   text-decoration: none;
-  padding: 0.4rem 0.8rem;
+  padding: 0.5rem 0.85rem;
   border-radius: 999px;
   font-weight: 600;
   transition: background-color 0.2s ease, color 0.2s ease;
@@ -63,7 +64,8 @@
   background: transparent;
   color: #fff;
   border-radius: 999px;
-  padding: 0.4rem 0.8rem;
+  min-height: 2.5rem;
+  padding: 0.4rem 0.9rem;
   font-weight: 600;
   cursor: pointer;
 }
@@ -75,14 +77,15 @@
 @media (max-width: 767px) {
   .toggle {
     display: inline-flex;
+    align-items: center;
   }
 
   .menu {
     display: none;
     position: absolute;
     top: calc(100% + 0.4rem);
-    right: var(--space-4);
-    left: var(--space-4);
+    right: var(--page-pad-x);
+    left: var(--page-pad-x);
     flex-direction: column;
     align-items: stretch;
     padding: var(--space-3);
@@ -93,5 +96,9 @@
 
   .menuOpen {
     display: flex;
+  }
+
+  .link {
+    width: 100%;
   }
 }

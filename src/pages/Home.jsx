@@ -33,6 +33,7 @@ function Home() {
               title="Fitness Tracker"
               subtitle={`${featured.length} featured moves`}
               align="left"
+              variant="plain"
             >
               <p className={styles.heroLead}>
                 Build strength, plan your week, and track progress.
@@ -83,14 +84,17 @@ function Home() {
         </p>
       ) : null}
 
-      <div className={styles.toolbar}>
-        <SearchBar
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-        />
-        <Button variant="secondary" onClick={() => navigate('/exercises')}>
-          Browse all exercises
-        </Button>
+      <div className={styles.catalogHead}>
+        <h2 className={styles.sectionTitle}>Featured moves</h2>
+        <div className={styles.toolbar}>
+          <SearchBar
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+          />
+          <Button variant="secondary" onClick={() => navigate('/exercises')}>
+            Browse all exercises
+          </Button>
+        </div>
       </div>
 
       <ExerciseList

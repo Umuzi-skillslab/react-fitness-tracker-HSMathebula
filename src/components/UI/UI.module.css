@@ -3,12 +3,18 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
+  min-height: 2.75rem;
   border: 1px solid transparent;
   border-radius: 999px;
   padding: 0.65rem 1.15rem;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.button:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 .button:disabled {
@@ -61,16 +67,20 @@
 }
 
 .card {
+  height: 100%;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
-  padding: var(--card-padding, 1.5rem);
+  padding: var(--card-padding, 1.35rem);
+  overflow-wrap: break-word;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-.card:hover {
-  transform: translateY(-2px);
-  border-color: #b8cdc5;
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-2px);
+    border-color: #b8cdc5;
+  }
 }
 
 .elevated {
@@ -127,9 +137,11 @@
 }
 
 .search {
-  display: block;
+  display: flex;
+  align-items: center;
   width: 100%;
-  max-width: 28rem;
+  max-width: 32rem;
+  flex: 1 1 16rem;
   border: 1px solid var(--color-border);
   border-radius: 999px;
   background: #fff;
@@ -143,10 +155,11 @@
 
 .searchFocused {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.16);
+  box-shadow: var(--focus-ring);
 }
 
 .search input {
+  flex: 1 1 auto;
   width: 100%;
   border: 0;
   background: transparent;
@@ -161,17 +174,25 @@
   align-items: center;
   justify-content: center;
   background: rgba(18, 33, 28, 0.48);
-  padding: var(--space-4);
+  padding: var(--space-3);
   z-index: 20;
 }
 
 .modal {
   width: 100%;
   max-width: var(--modal-max-width, 32rem);
+  max-height: min(90vh, 44rem);
+  overflow: auto;
   background: var(--color-surface);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: var(--space-5);
+}
+
+@media (min-width: 640px) {
+  .overlay {
+    padding: var(--space-4);
+  }
 }
 
 .modalHeader {

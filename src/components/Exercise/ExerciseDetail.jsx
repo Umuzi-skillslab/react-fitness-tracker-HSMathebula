@@ -25,7 +25,7 @@ function ExerciseDetail({ exercise, onAddToPlan, onBack }) {
         </div>
       </Header>
 
-      <div className={styles.stack}>
+      <div className={styles.detailLayout}>
         <Card title="Demonstration">
           <VideoPlayer
             src={exercise.videoUrl}

@@ -62,24 +62,23 @@ function ExercisesPage() {
         </p>
       ) : null}
 
-      <div className={styles.toolbar}>
+      <div className={styles.controls}>
         <SearchBar
           value={search}
           onChange={(event) => setSearch(event.target.value)}
         />
+        <ExerciseFilter
+          filters={filters}
+          categories={getUniqueValues(exercisesData, 'category')}
+          muscleGroups={getUniqueValues(exercisesData, 'muscleGroup')}
+          difficulties={getUniqueValues(exercisesData, 'difficulty')}
+          onFilterChange={setFilters}
+          onReset={() => {
+            setSearch('');
+            setFilters(INITIAL_FILTERS);
+          }}
+        />
       </div>
-
-      <ExerciseFilter
-        filters={filters}
-        categories={getUniqueValues(exercisesData, 'category')}
-        muscleGroups={getUniqueValues(exercisesData, 'muscleGroup')}
-        difficulties={getUniqueValues(exercisesData, 'difficulty')}
-        onFilterChange={setFilters}
-        onReset={() => {
-          setSearch('');
-          setFilters(INITIAL_FILTERS);
-        }}
-      />
 
       {isLoading ? (
         <Loading message="Loading exercise catalog..." size={40} />

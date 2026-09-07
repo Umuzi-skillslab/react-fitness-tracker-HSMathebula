@@ -1,9 +1,3 @@
-.stack {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
 .grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -19,7 +13,7 @@
 }
 
 .preview {
-  min-height: 3.2rem;
+  min-height: 0;
 }
 
 .actions {
@@ -29,16 +23,18 @@
 }
 
 .filters {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
   gap: var(--space-3);
-  margin-bottom: var(--space-5);
 }
 
 .field {
   display: flex;
+  flex: 1 1 12rem;
   flex-direction: column;
   gap: var(--space-2);
+  min-width: 0;
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--color-text);
@@ -46,22 +42,18 @@
 
 .field select {
   width: 100%;
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
-  background: #fff;
-  padding: 0.65rem 0.75rem;
-  color: var(--color-text);
-}
-
-.field select:hover,
-.field select:focus {
-  border-color: var(--color-primary);
-  outline: none;
 }
 
 .filterActions {
   display: flex;
+  flex: 0 1 10rem;
   align-items: flex-end;
+}
+
+.detailLayout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
 .steps {
@@ -74,13 +66,22 @@
   margin-bottom: var(--space-2);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 600px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .filters {
-    grid-template-columns: repeat(2, 1fr);
+  .preview {
+    min-height: 3.2rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .detailLayout {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: start;
+    gap: var(--space-5);
   }
 }
 
@@ -88,8 +89,16 @@
   .grid {
     grid-template-columns: repeat(3, 1fr);
   }
+}
 
-  .filters {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+@media (max-width: 599px) {
+  .field,
+  .filterActions {
+    flex: 1 1 100%;
+  }
+
+  .filterActions button,
+  .actions button {
+    width: 100%;
   }
 }

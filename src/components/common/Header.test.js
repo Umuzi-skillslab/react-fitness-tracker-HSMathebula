@@ -15,7 +15,7 @@ describe('Header', () => {
   });
 
   test('renders without a subtitle and falls back for unknown align', () => {
-    render(<Header title="FitTrack" align="wide" />);
+    render(<Header title="FitTrack" align="wide" variant="banner" />);
 
     expect(screen.getByRole('heading', { name: /fittrack/i })).toBeInTheDocument();
     expect(screen.queryByText(/movements/i)).not.toBeInTheDocument();

@@ -29,7 +29,9 @@ function App() {
         </Routes>
       </main>
       <div className={styles.footerWrap}>
-        <Footer />
+        <div className={styles.footerInner}>
+          <Footer />
+        </div>
       </div>
     </div>
   );

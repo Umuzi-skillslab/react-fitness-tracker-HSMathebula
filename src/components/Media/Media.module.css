@@ -6,10 +6,10 @@
 
 .video {
   width: 100%;
-  max-height: 22rem;
+  max-height: min(22rem, 70vh);
   border-radius: calc(var(--radius) - 4px);
   background: #0f1c18;
-  min-height: 14rem;
+  min-height: 12rem;
   object-fit: contain;
 }
 
@@ -31,16 +31,15 @@
 
 .trackPicker {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.75rem;
   font-weight: 600;
 }
 
 .trackSelect {
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
-  background: #fff;
-  padding: 0.5rem 0.75rem;
+  flex: 1 1 10rem;
+  min-width: 0;
 }
 
 .error {
@@ -79,4 +78,10 @@
 
 .playerHero .error {
   color: #ffb4b8;
+}
+
+@media (max-width: 599px) {
+  .controls button {
+    width: 100%;
+  }
 }
