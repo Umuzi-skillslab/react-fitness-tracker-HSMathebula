@@ -1,0 +1,112 @@
+.header {
+  margin-bottom: var(--space-5);
+}
+
+.left {
+  text-align: left;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.subtitle {
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+}
+
+.page {
+  padding: 1.25rem 1.2rem 1.35rem;
+  border-radius: calc(var(--radius) + 4px);
+  background:
+    radial-gradient(circle at 96% 0%, rgba(232, 93, 4, 0.22), transparent 36%),
+    linear-gradient(135deg, #0d2f29 0%, #134039 52%, #1a2e24 100%);
+  box-shadow: var(--shadow);
+}
+
+.page h1 {
+  color: #fff;
+  margin-bottom: 0.55rem;
+}
+
+.page .subtitle {
+  color: #ffc078;
+  font-weight: 700;
+}
+
+.page p {
+  color: rgba(232, 244, 240, 0.84);
+}
+
+.page p:last-child {
+  margin-bottom: 0;
+}
+
+.plain {
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.footer {
+  margin: 0;
+  padding: var(--space-5) 0;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.footer p {
+  margin: 0;
+}
+
+.footer a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-5);
+}
+
+.loadingOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(243, 246, 244, 0.86);
+  z-index: 15;
+}
+
+.spinner {
+  display: inline-block;
+  width: var(--spinner-size, 36px);
+  height: var(--spinner-size, 36px);
+  border: 3px solid #d5e0db;
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding: 1.5rem 1.6rem 1.6rem;
+  }
+}

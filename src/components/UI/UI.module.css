@@ -1,0 +1,250 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 2.75rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0.65rem 1.15rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.button:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.primary {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.primary:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.secondary {
+  background-color: #fff;
+  color: var(--color-secondary);
+  border-color: var(--color-border);
+}
+
+.secondary:hover {
+  background-color: #eef4f1;
+}
+
+.danger {
+  background-color: var(--color-danger);
+  color: #fff;
+}
+
+.danger:hover {
+  background-color: #9b0e18;
+}
+
+.accent {
+  background-color: var(--color-accent);
+  color: #fff;
+}
+
+.accent:hover {
+  background-color: #c94d03;
+}
+
+.card {
+  height: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--card-padding, 1.35rem);
+  overflow-wrap: break-word;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-2px);
+    border-color: #b8cdc5;
+  }
+}
+
+.elevated {
+  box-shadow: var(--shadow);
+}
+
+.flat {
+  box-shadow: none;
+}
+
+.selected {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.16);
+}
+
+.cardTitle {
+  margin-bottom: var(--space-2);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+  margin-right: var(--space-2);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.beginner {
+  background-color: var(--color-beginner);
+  color: #fff;
+}
+
+.intermediate {
+  background-color: var(--color-intermediate);
+  color: #fff;
+}
+
+.advanced {
+  background-color: var(--color-advanced);
+  color: #fff;
+}
+
+.neutral {
+  background-color: #5c6f68;
+  color: #fff;
+}
+
+.badgeActive {
+  outline: 2px solid #fff;
+  box-shadow: 0 0 0 2px var(--color-secondary);
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 32rem;
+  flex: 1 1 16rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: #fff;
+  padding: 0.15rem 0.25rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search:hover {
+  border-color: var(--color-primary);
+}
+
+.searchFocused {
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
+}
+
+.search input {
+  flex: 1 1 auto;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0.7rem 1rem;
+  outline: none;
+}
+
+@media (max-width: 599px) {
+  .search {
+    flex: 0 0 auto;
+    max-width: 100%;
+    border-radius: 12px;
+  }
+
+  .search input {
+    padding: 0.55rem 0.85rem;
+  }
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(18, 33, 28, 0.48);
+  padding: var(--space-3);
+  z-index: 20;
+}
+
+.modal {
+  width: 100%;
+  max-width: var(--modal-max-width, 32rem);
+  max-height: min(90vh, 44rem);
+  overflow: auto;
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--space-5);
+}
+
+@media (min-width: 640px) {
+  .overlay {
+    padding: var(--space-4);
+  }
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.modalActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.iconButton {
+  border: 0;
+  background: transparent;
+  color: var(--color-text);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+}
+
+.iconButton:hover {
+  background: #eef4f1;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}

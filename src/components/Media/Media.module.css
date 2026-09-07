@@ -1,0 +1,122 @@
+.player {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.video {
+  width: 100%;
+  max-height: min(22rem, 70vh);
+  border-radius: calc(var(--radius) - 4px);
+  background: #0f1c18;
+  min-height: 12rem;
+  object-fit: contain;
+}
+
+.audio {
+  width: 100%;
+}
+
+.nativeHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.scrubber {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.scrubber input[type='range'] {
+  width: 100%;
+  min-height: 1.4rem;
+  padding: 0;
+  accent-color: var(--color-accent);
+}
+
+.time {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.playerHero .time {
+  color: rgba(232, 244, 240, 0.78);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.trackLabel {
+  margin: 0;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.trackPicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 600;
+}
+
+.trackSelect {
+  flex: 1 1 10rem;
+  min-width: 0;
+}
+
+.error {
+  margin: 0;
+  color: var(--color-danger);
+}
+
+.playerHero .trackLabel {
+  color: rgba(232, 244, 240, 0.92);
+}
+
+.playerHero .audio {
+  accent-color: var(--color-accent);
+  border-radius: 999px;
+}
+
+.playerHero .trackPicker {
+  color: rgba(232, 244, 240, 0.88);
+}
+
+.playerHero .trackSelect {
+  flex: 1;
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(7, 20, 18, 0.7);
+  color: #fff;
+}
+
+.playerHero .controls button {
+  width: 100%;
+  background: var(--color-accent);
+}
+
+.playerHero .controls button:hover {
+  background: #c94d03;
+}
+
+.playerHero .error {
+  color: #ffb4b8;
+}
+
+@media (max-width: 599px) {
+  .controls button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,145 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.thumb {
+  display: flex;
+  align-items: flex-end;
+  min-height: 5.5rem;
+  margin: -0.15rem 0 var(--space-3);
+  padding: 0.75rem 0.85rem;
+  border-radius: 10px;
+  background:
+    radial-gradient(circle at 90% 10%, rgba(255, 255, 255, 0.2), transparent 36%),
+    linear-gradient(135deg, #0f3d36, #e85d04);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.thumb[data-group='legs'] {
+  background: linear-gradient(135deg, #0f766e, #134e4a);
+}
+
+.thumb[data-group='chest'] {
+  background: linear-gradient(135deg, #e85d04, #9a3412);
+}
+
+.thumb[data-group='back'] {
+  background: linear-gradient(135deg, #1f3a34, #0f766e);
+}
+
+.thumb[data-group='core'] {
+  background: linear-gradient(135deg, #2a9d8f, #0f3d36);
+}
+
+.thumb[data-group='shoulders'] {
+  background: linear-gradient(135deg, #c59212, #7c4a03);
+}
+
+.thumb[data-group='full-body'] {
+  background: linear-gradient(135deg, #e85d04, #0f766e);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.preview {
+  min-height: 0;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-3);
+}
+
+.field {
+  display: flex;
+  flex: 1 1 12rem;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.field select {
+  width: 100%;
+}
+
+.filterActions {
+  display: flex;
+  flex: 0 1 10rem;
+  align-items: flex-end;
+}
+
+.detailLayout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.steps {
+  margin: 0 0 var(--space-4);
+  padding-left: 1.2rem;
+  color: var(--color-text-muted);
+}
+
+.steps li {
+  margin-bottom: var(--space-2);
+}
+
+@media (min-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .preview {
+    min-height: 3.2rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .detailLayout {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: start;
+    gap: var(--space-5);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 599px) {
+  .field,
+  .filterActions {
+    flex: 1 1 100%;
+  }
+
+  .filterActions button,
+  .actions button {
+    width: 100%;
+  }
+}
