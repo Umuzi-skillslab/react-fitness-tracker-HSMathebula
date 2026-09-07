@@ -72,6 +72,43 @@ describe('HistoryDetailPage', () => {
     expect(screen.getByText(/progress page/i)).toBeInTheDocument();
   });
 
+  test('opens the history logger in edit mode', async () => {
+    const user = userEvent.setup();
+    saveToStorage(STORAGE_KEYS.WORKOUT_LOGS, [
+      {
+        id: 'log-edit',
+        date: '2026-09-01',
+        exerciseName: 'Push-Up',
+        sets: 3,
+        reps: 12,
+        weight: 0,
+      },
+    ]);
+
+    renderDetail('log-edit');
+    await user.click(screen.getByRole('button', { name: /edit log/i }));
+    expect(screen.getByText(/history list/i)).toBeInTheDocument();
+  });
+
+  test('can cancel deleting a saved log', async () => {
+    const user = userEvent.setup();
+    saveToStorage(STORAGE_KEYS.WORKOUT_LOGS, [
+      {
+        id: 'log-keep',
+        date: '2026-09-01',
+        exerciseName: 'Push-Up',
+        sets: 3,
+        reps: 12,
+        weight: 0,
+      },
+    ]);
+
+    renderDetail('log-keep');
+    await user.click(screen.getByRole('button', { name: /delete log/i }));
+    await user.click(screen.getByRole('button', { name: /cancel/i }));
+    expect(screen.getByRole('heading', { name: /push-up/i })).toBeInTheDocument();
+  });
+
   test('deletes a saved log and returns to history', async () => {
     const user = userEvent.setup();
     saveToStorage(STORAGE_KEYS.WORKOUT_LOGS, [

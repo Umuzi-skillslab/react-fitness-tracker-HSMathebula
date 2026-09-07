@@ -13,5 +13,9 @@ describe('App', () => {
     expect(
       screen.getByRole('heading', { name: /fitness tracker/i })
     ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /skip to content/i })).toHaveAttribute(
+      'href',
+      '#main-content'
+    );
   });
 });

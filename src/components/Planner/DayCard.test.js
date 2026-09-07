@@ -65,4 +65,27 @@ describe('DayCard', () => {
     expect(screen.getByText(/jump rope/i)).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /log jump rope/i })).not.toBeInTheDocument();
   });
+
+  test('can cancel a remove and undo a completed move', async () => {
+    const user = userEvent.setup();
+    const handleRemove = jest.fn();
+    const handleToggle = jest.fn();
+
+    render(
+      <DayCard
+        day="Wednesday"
+        isToday
+        exercises={[{ id: 3, name: 'Plank', done: true, muscleGroup: 'Core' }]}
+        onRemove={handleRemove}
+        onToggleDone={handleToggle}
+      />
+    );
+
+    await user.click(screen.getByRole('button', { name: /undo plank done on wednesday/i }));
+    expect(handleToggle).toHaveBeenCalledWith('Wednesday', 3);
+
+    await user.click(screen.getByRole('button', { name: /remove plank from wednesday/i }));
+    await user.click(screen.getByRole('button', { name: /cancel/i }));
+    expect(handleRemove).not.toHaveBeenCalled();
+  });
 });

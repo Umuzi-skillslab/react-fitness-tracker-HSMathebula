@@ -76,7 +76,7 @@ describe('ExerciseDetail', () => {
     );
 
     await user.click(screen.getByRole('button', { name: /open checklist/i }));
-    await user.click(screen.getByRole('button', { name: /^close$/i }));
+    await user.click(screen.getByRole('button', { name: /close modal/i }));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 });

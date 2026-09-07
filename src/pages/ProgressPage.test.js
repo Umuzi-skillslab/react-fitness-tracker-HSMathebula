@@ -27,6 +27,32 @@ describe('ProgressPage', () => {
     expect(screen.getByRole('img', { name: /daily workout volume/i })).toBeInTheDocument();
   });
 
+  test('links to the logger when workouts already exist', async () => {
+    const user = userEvent.setup();
+    saveToStorage(STORAGE_KEYS.WORKOUT_LOGS, [
+      {
+        id: 'log-2',
+        date: '2026-09-01',
+        exerciseName: 'Push-Up',
+        sets: 3,
+        reps: 10,
+        weight: 0,
+      },
+    ]);
+
+    render(
+      <MemoryRouter initialEntries={['/progress']}>
+        <Routes>
+          <Route path="/progress" element={<ProgressPage />} />
+          <Route path="/history" element={<p>History page</p>} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    await user.click(screen.getByRole('button', { name: /log another workout/i }));
+    expect(screen.getByText(/history page/i)).toBeInTheDocument();
+  });
+
   test('links back to the history logger', async () => {
     const user = userEvent.setup();
 

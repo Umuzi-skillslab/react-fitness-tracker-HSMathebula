@@ -6,11 +6,13 @@ import {
   computeProgressTotals,
   createEmptyPlan,
   createWorkoutLog,
+  countPlannedExercises,
   filterExercises,
   formatDisplayDate,
   formatVolume,
   getExerciseById,
   getLastLogForExercise,
+  getLastWorkoutDate,
   getWeekdayName,
   getTodayDate,
   getUniqueValues,
@@ -62,6 +64,13 @@ describe('filterExercises', () => {
     expect(results).toHaveLength(1);
     expect(results[0].name).toBe('Push-Up');
   });
+
+  test('filters by muscle group and search text', () => {
+    expect(filterExercises(sampleExercises, { muscleGroup: 'Legs' })[0].name).toBe(
+      'Barbell Squat'
+    );
+    expect(filterExercises(sampleExercises, { search: 'chest' })).toHaveLength(1);
+  });
 });
 
 describe('sortExercises', () => {
@@ -78,6 +87,15 @@ describe('sortExercises', () => {
     const results = sortExercises(sampleExercises, 'difficulty');
     expect(results[0].difficulty).toBe('Beginner');
     expect(results[results.length - 1].difficulty).toBe('Intermediate');
+  });
+
+  test('sorts exercises by category and ignores unknown difficulty ranks', () => {
+    const results = sortExercises(sampleExercises, 'category');
+    expect(results[0].category).toBe('Cardio');
+    expect(
+      sortExercises([{ name: 'A', difficulty: 'Custom' }, { name: 'B', difficulty: 'Beginner' }], 'difficulty')[0]
+        .difficulty
+    ).toBe('Custom');
   });
 });
 
@@ -145,6 +163,12 @@ describe('planner and progress helpers', () => {
     expect(Object.keys(groupLogsByDate(logs))).toEqual(['2026-09-01']);
     expect(formatVolume(840)).toBe('840 kg');
     expect(formatDisplayDate('2026-09-01')).toBe('Tue, 1 Sep');
+    expect(formatDisplayDate('')).toBe('');
+    expect(formatDisplayDate('soon')).toBe('soon');
+    expect(getLastWorkoutDate([])).toBe('');
+    expect(getLastWorkoutDate(logs)).toBe('2026-09-01');
+    expect(getLastLogForExercise(logs, '')).toBeUndefined();
+    expect(getLastLogForExercise([{ exerciseId: 4, sets: 2 }], 4).sets).toBe(2);
     expect(getLastLogForExercise(logs, 9)).toBeUndefined();
     expect(WEEK_DAYS).toContain(getWeekdayName(new Date(2026, 8, 7)));
     expect(
@@ -154,6 +178,8 @@ describe('planner and progress helpers', () => {
         1
       ).Monday[0].done
     ).toBe(true);
+    expect(countPlannedExercises({ Monday: [{ id: 1 }], Friday: [{ id: 2 }] })).toBe(2);
+    expect(countPlannedExercises(null)).toBe(0);
   });
 });
 

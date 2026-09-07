@@ -31,4 +31,30 @@ describe('add-to-plan flow', () => {
       screen.getByLabelText(/remove barbell squat from wednesday/i)
     ).toBeInTheDocument();
   });
+
+  test('notifies when the library exercise is already on that day', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <MemoryRouter initialEntries={['/exercises']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    expect(
+      await screen.findByRole('heading', { name: /barbell squat/i })
+    ).toBeInTheDocument();
+
+    await user.click(screen.getAllByRole('button', { name: /add to planner/i })[0]);
+    await user.selectOptions(screen.getByLabelText(/choose a day/i), 'Wednesday');
+    await user.click(screen.getByRole('button', { name: /add to wednesday/i }));
+
+    await user.click(screen.getAllByRole('button', { name: /add to planner/i })[0]);
+    await user.selectOptions(screen.getByLabelText(/choose a day/i), 'Wednesday');
+    await user.click(screen.getByRole('button', { name: /keep on wednesday/i }));
+
+    expect(screen.getByRole('status')).toHaveTextContent(
+      /already on wednesday/i
+    );
+  });
 });

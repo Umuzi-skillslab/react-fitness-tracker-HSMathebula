@@ -33,4 +33,21 @@ describe('LogEntry', () => {
     await user.click(screen.getByRole('button', { name: /view log/i }));
     expect(screen.getByText(/log detail/i)).toBeInTheDocument();
   });
+
+  test('confirms before deleting a log', async () => {
+    const user = userEvent.setup();
+    const handleDelete = jest.fn();
+
+    render(
+      <MemoryRouter>
+        <LogEntry log={{ ...log, weight: 20 }} onDelete={handleDelete} onEdit={jest.fn()} />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByText(/3 sets × 12 reps · 20 kg/i)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /^edit$/i }));
+    await user.click(screen.getByRole('button', { name: /^delete$/i }));
+    await user.click(screen.getByRole('button', { name: /yes, delete/i }));
+    expect(handleDelete).toHaveBeenCalledWith('log-1');
+  });
 });

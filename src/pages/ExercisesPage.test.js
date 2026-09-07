@@ -78,4 +78,27 @@ describe('ExercisesPage', () => {
     const details = await screen.findAllByRole('button', { name: /view details/i });
     await user.click(details[0]);
   });
+
+  test('clears muscle, difficulty, and search chips', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <MemoryRouter>
+        <ExercisesPage />
+      </MemoryRouter>
+    );
+
+    await screen.findByRole('heading', { name: /barbell squat/i });
+    await user.selectOptions(screen.getByLabelText(/filter by muscle group/i), 'Legs');
+    await user.selectOptions(screen.getByLabelText(/filter by difficulty/i), 'Intermediate');
+    await user.click(screen.getByRole('button', { name: /legs ×/i }));
+    await user.click(screen.getByRole('button', { name: /intermediate ×/i }));
+
+    const search = screen.getByRole('searchbox');
+    await user.type(search, 'xyz-no-match');
+    await user.click(await screen.findByRole('button', { name: /xyz-no-match ×/i }));
+    expect(
+      await screen.findByRole('heading', { name: /barbell squat/i })
+    ).toBeInTheDocument();
+  });
 });

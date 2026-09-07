@@ -57,13 +57,11 @@ function LogProbe() {
         onClick={() =>
           logs[0] &&
           updateLog(logs[0].id, {
-            ...logs[0],
+            exerciseName: logs[0].exerciseName,
+            date: logs[0].date,
             sets: 6,
             reps: logs[0].reps,
             weight: logs[0].weight,
-            date: logs[0].date,
-            exerciseName: logs[0].exerciseName,
-            exerciseId: logs[0].exerciseId,
           })
         }
       >
@@ -102,7 +100,8 @@ describe('persisted hooks', () => {
     render(<LogProbe />);
 
     await user.click(screen.getByRole('button', { name: /^log$/i }));
-    expect(screen.getByTestId('log-count')).toHaveTextContent('1');
+    await user.click(screen.getByRole('button', { name: /^log$/i }));
+    expect(screen.getByTestId('log-count')).toHaveTextContent('2');
 
     const stored = JSON.parse(localStorage.getItem(STORAGE_KEYS.WORKOUT_LOGS));
     expect(stored[0].exerciseName).toBe('Push-Up');
@@ -110,6 +109,7 @@ describe('persisted hooks', () => {
     await user.click(screen.getByRole('button', { name: /update/i }));
     expect(screen.getByTestId('log-sets')).toHaveTextContent('6');
 
+    await user.click(screen.getByRole('button', { name: /delete/i }));
     await user.click(screen.getByRole('button', { name: /delete/i }));
     expect(screen.getByTestId('log-count')).toHaveTextContent('0');
   });

@@ -51,4 +51,22 @@ describe('ExerciseCard', () => {
     expect(screen.getByText(/form notes coming soon/i)).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /add to planner/i })).not.toBeInTheDocument();
   });
+
+  test('falls back to category when a muscle group is missing', () => {
+    render(
+      <ExerciseCard
+        exercise={{
+          id: 9,
+          name: 'Custom Move',
+          category: 'Mobility',
+        }}
+        isSelected
+        showPreview={false}
+        onSelect={jest.fn()}
+      />
+    );
+
+    expect(screen.getAllByText('Mobility').length).toBeGreaterThan(0);
+    expect(screen.queryByText(/form notes coming soon/i)).not.toBeInTheDocument();
+  });
 });

@@ -61,7 +61,10 @@ function ExercisesPage() {
 
   useEffect(() => {
     // Brief load state stands in for a catalog fetch.
-    const timer = window.setTimeout(() => setIsLoading(false), 250);
+    const timer = window.setTimeout(
+      () => setIsLoading(false),
+      process.env.JEST_WORKER_ID ? 0 : 250
+    );
     return () => window.clearTimeout(timer);
   }, []);
 

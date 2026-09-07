@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AudioPlayer from './AudioPlayer';
 
@@ -50,6 +50,37 @@ describe('AudioPlayer', () => {
   test('shows a fallback when there are no tracks', () => {
     render(<AudioPlayer tracks={[]} />);
     expect(screen.getByText(/no motivation tracks are available/i)).toBeInTheDocument();
+  });
+
+  test('updates the playhead from the custom scrubber', () => {
+    render(<AudioPlayer tracks={tracks} />);
+    const audio = document.querySelector('audio');
+    Object.defineProperty(audio, 'duration', { configurable: true, value: 60 });
+    Object.defineProperty(audio, 'currentTime', {
+      configurable: true,
+      writable: true,
+      value: 0,
+    });
+
+    act(() => {
+      audio.dispatchEvent(new Event('loadedmetadata'));
+    });
+
+    fireEvent.change(screen.getByLabelText(/audio progress/i), {
+      target: { value: '18' },
+    });
+    expect(audio.currentTime).toBe(18);
+
+    Object.defineProperty(audio, 'currentTime', {
+      configurable: true,
+      writable: true,
+      value: 21,
+    });
+    act(() => {
+      audio.dispatchEvent(new Event('timeupdate'));
+      audio.dispatchEvent(new Event('ended'));
+    });
+    expect(screen.getByText(/0:21/)).toBeInTheDocument();
   });
 
   test('shows an error when audio cannot load', () => {

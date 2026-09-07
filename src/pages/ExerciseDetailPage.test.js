@@ -35,6 +35,10 @@ describe('ExerciseDetailPage', () => {
     await user.click(screen.getByRole('button', { name: /add to planner/i }));
     await user.click(screen.getByRole('button', { name: /add to monday/i }));
     expect(screen.getByRole('status')).toHaveTextContent(/added push-up to monday/i);
+
+    await user.click(screen.getByRole('button', { name: /add to planner/i }));
+    await user.click(screen.getByRole('button', { name: /keep on monday/i }));
+    expect(screen.getByRole('status')).toHaveTextContent(/already on monday/i);
   });
 
   test('loads a different demonstration video for each exercise', () => {

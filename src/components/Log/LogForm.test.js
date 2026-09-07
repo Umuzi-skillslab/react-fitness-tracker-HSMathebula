@@ -131,4 +131,59 @@ describe('LogForm', () => {
     expect(screen.getByRole('alert')).toHaveTextContent(/weight cannot be negative/i);
     expect(handleSubmit).not.toHaveBeenCalled();
   });
+
+  test('saves changes for an existing log without resetting the form', async () => {
+    const user = userEvent.setup();
+    const handleSubmit = jest.fn();
+
+    render(
+      <LogForm
+        exercises={exercises}
+        initialLog={{
+          id: 'log-1',
+          exerciseId: 1,
+          date: '2026-09-01',
+          sets: 4,
+          reps: 6,
+          weight: 50,
+        }}
+        onSubmit={handleSubmit}
+      />
+    );
+
+    expect(screen.getByRole('button', { name: /save changes/i })).toBeInTheDocument();
+    expect(screen.getByLabelText(/^sets$/i)).toHaveValue(4);
+    await user.click(screen.getByRole('button', { name: /save changes/i }));
+    expect(handleSubmit).toHaveBeenCalledWith(
+      expect.objectContaining({
+        exerciseId: 1,
+        exerciseName: 'Barbell Squat',
+        sets: 4,
+        reps: 6,
+        weight: 50,
+      })
+    );
+    expect(screen.getByLabelText(/^sets$/i)).toHaveValue(4);
+  });
+
+  test('treats a partial initial log as empty exercise and bodyweight', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <LogForm
+        exercises={exercises}
+        initialLog={{
+          date: '2026-09-01',
+          sets: 2,
+          reps: 4,
+        }}
+        onSubmit={jest.fn()}
+      />
+    );
+
+    expect(screen.getByLabelText(/exercise to log/i)).toHaveValue('');
+    expect(screen.getByLabelText(/weight in kilograms/i)).toHaveValue(0);
+    await user.selectOptions(screen.getByLabelText(/exercise to log/i), '2');
+    expect(screen.getByLabelText(/^sets$/i)).toHaveValue(2);
+  });
 });
