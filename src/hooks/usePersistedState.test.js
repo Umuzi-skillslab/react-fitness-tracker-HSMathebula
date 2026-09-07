@@ -6,11 +6,12 @@ import useWeeklyPlan from './useWeeklyPlan';
 import useWorkoutLogs from './useWorkoutLogs';
 
 function PlanProbe() {
-  const { plan, addExercise, removeExercise } = useWeeklyPlan();
+  const { plan, addExercise, removeExercise, toggleDone } = useWeeklyPlan();
 
   return (
     <div>
       <span data-testid="monday-count">{plan.Monday.length}</span>
+      <span data-testid="monday-done">{String(plan.Monday[0]?.done || false)}</span>
       <button
         type="button"
         onClick={() =>
@@ -22,16 +23,20 @@ function PlanProbe() {
       <button type="button" onClick={() => removeExercise('Monday', 2)}>
         Remove
       </button>
+      <button type="button" onClick={() => toggleDone('Monday', 2)}>
+        Toggle
+      </button>
     </div>
   );
 }
 
 function LogProbe() {
-  const { logs, addLog, deleteLog } = useWorkoutLogs();
+  const { logs, addLog, deleteLog, updateLog } = useWorkoutLogs();
 
   return (
     <div>
       <span data-testid="log-count">{logs.length}</span>
+      <span data-testid="log-sets">{logs[0]?.sets || 0}</span>
       <button
         type="button"
         onClick={() =>
@@ -46,6 +51,23 @@ function LogProbe() {
         }
       >
         Log
+      </button>
+      <button
+        type="button"
+        onClick={() =>
+          logs[0] &&
+          updateLog(logs[0].id, {
+            ...logs[0],
+            sets: 6,
+            reps: logs[0].reps,
+            weight: logs[0].weight,
+            date: logs[0].date,
+            exerciseName: logs[0].exerciseName,
+            exerciseId: logs[0].exerciseId,
+          })
+        }
+      >
+        Update
       </button>
       <button
         type="button"
@@ -68,6 +90,9 @@ describe('persisted hooks', () => {
     const stored = JSON.parse(localStorage.getItem(STORAGE_KEYS.WEEKLY_PLAN));
     expect(stored.Monday[0].name).toBe('Push-Up');
 
+    await user.click(screen.getByRole('button', { name: /toggle/i }));
+    expect(screen.getByTestId('monday-done')).toHaveTextContent('true');
+
     await user.click(screen.getByRole('button', { name: /remove/i }));
     expect(screen.getByTestId('monday-count')).toHaveTextContent('0');
   });
@@ -81,6 +106,9 @@ describe('persisted hooks', () => {
 
     const stored = JSON.parse(localStorage.getItem(STORAGE_KEYS.WORKOUT_LOGS));
     expect(stored[0].exerciseName).toBe('Push-Up');
+
+    await user.click(screen.getByRole('button', { name: /update/i }));
+    expect(screen.getByTestId('log-sets')).toHaveTextContent('6');
 
     await user.click(screen.getByRole('button', { name: /delete/i }));
     expect(screen.getByTestId('log-count')).toHaveTextContent('0');

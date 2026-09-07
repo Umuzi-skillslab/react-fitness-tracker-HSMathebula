@@ -1,27 +1,27 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import WorkoutPlanner from '../components/Planner/WorkoutPlanner';
 import Header from '../components/common/Header';
 import Button from '../components/UI/Button';
 import Card from '../components/UI/Card';
+import Toast from '../components/UI/Toast';
 import { exercisesData } from '../data/exercisesData';
+import useNotice from '../hooks/useNotice';
 import useWeeklyPlan from '../hooks/useWeeklyPlan';
-import { WEEK_DAYS } from '../utils/helpers';
+import { WEEK_DAYS, countPlannedExercises, getWeekdayName } from '../utils/helpers';
 import styles from '../components/Planner/Planner.module.css';
 import pageStyles from './pages.module.css';
 
 function WorkoutPlannerPage() {
   const navigate = useNavigate();
   // Plan is lifted into this hook so Home, library, and this page share one store.
-  const { plan, addExercise, removeExercise } = useWeeklyPlan();
+  const { plan, addExercise, removeExercise, toggleDone } = useWeeklyPlan();
   const [day, setDay] = useState('Monday');
   const [exerciseId, setExerciseId] = useState('');
-  const [notice, setNotice] = useState('');
+  const { notice, showNotice, clearNotice } = useNotice();
 
-  const plannedCount = WEEK_DAYS.reduce(
-    (total, weekday) => total + (plan[weekday]?.length || 0),
-    0
-  );
+  const plannedCount = countPlannedExercises(plan);
+  const today = getWeekdayName();
 
   const handleCatalogAdd = (event) => {
     event.preventDefault();
@@ -30,12 +30,12 @@ function WorkoutPlannerPage() {
     );
 
     if (!exercise) {
-      setNotice('Choose an exercise to add.');
+      showNotice('Choose an exercise to add.');
       return;
     }
 
     addExercise(day, exercise);
-    setNotice(`Added ${exercise.name} to ${day}.`);
+    showNotice(`Added ${exercise.name} to ${day}.`);
     setExerciseId('');
   };
 
@@ -48,11 +48,7 @@ function WorkoutPlannerPage() {
         <p>Assign movements to each day. Your plan is saved in this browser.</p>
       </Header>
 
-      {notice ? (
-        <p className={pageStyles.notice} role="status">
-          {notice}
-        </p>
-      ) : null}
+      <Toast message={notice} onClear={clearNotice} />
 
       <Card title="Add from the catalog" padding="1.25rem">
         <form className={styles.composer} onSubmit={handleCatalogAdd}>
@@ -91,15 +87,26 @@ function WorkoutPlannerPage() {
         </form>
       </Card>
 
-      <div className={pageStyles.toolbar}>
-        <Button variant="secondary" onClick={() => navigate('/exercises')}>
-          Browse exercises
-        </Button>
-      </div>
+      {plannedCount === 0 ? (
+        <div className={pageStyles.emptyCallout}>
+          <Card title="Your week is empty" padding="1.25rem">
+            <p>Browse the library and add a few moves to start the week.</p>
+            <Button onClick={() => navigate('/exercises')}>Browse exercises</Button>
+          </Card>
+        </div>
+      ) : (
+        <div className={pageStyles.toolbar}>
+          <Button variant="secondary" onClick={() => navigate('/exercises')}>
+            Browse exercises
+          </Button>
+        </div>
+      )}
 
       <WorkoutPlanner
         plan={plan}
+        today={today}
         onRemove={removeExercise}
+        onToggleDone={toggleDone}
         onLog={(exercise) =>
           navigate('/history', {
             state: { exerciseId: exercise.id, exerciseName: exercise.name },

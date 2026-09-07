@@ -5,6 +5,7 @@ import {
   createEmptyPlan,
   normalizePlan,
   removeExerciseFromDay,
+  toggleExerciseDone,
 } from '../utils/helpers';
 import usePersistedState from './usePersistedState';
 
@@ -32,7 +33,16 @@ function useWeeklyPlan() {
     [setPlan]
   );
 
-  return { plan, addExercise, removeExercise };
+  const toggleDone = useCallback(
+    (day, exerciseId) => {
+      setPlan((current) =>
+        toggleExerciseDone(normalizePlan(current), day, exerciseId)
+      );
+    },
+    [setPlan]
+  );
+
+  return { plan, addExercise, removeExercise, toggleDone };
 }
 
 export default useWeeklyPlan;

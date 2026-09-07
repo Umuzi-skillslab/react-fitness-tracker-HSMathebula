@@ -5,7 +5,9 @@ import AddToPlanModal from '../components/Planner/AddToPlanModal';
 import Header from '../components/common/Header';
 import Button from '../components/UI/Button';
 import Card from '../components/UI/Card';
+import Toast from '../components/UI/Toast';
 import { exercisesData } from '../data/exercisesData';
+import useNotice from '../hooks/useNotice';
 import { getExerciseById } from '../utils/helpers';
 import styles from './pages.module.css';
 
@@ -13,7 +15,7 @@ function ExerciseDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [pendingExercise, setPendingExercise] = useState(null);
-  const [notice, setNotice] = useState('');
+  const { notice, showNotice, clearNotice } = useNotice();
   const exercise = getExerciseById(exercisesData, id);
 
   // Dynamic /exercises/:id still needs a fallback when the id is not in the catalog.
@@ -33,11 +35,7 @@ function ExerciseDetailPage() {
 
   return (
     <>
-      {notice ? (
-        <p className={styles.notice} role="status">
-          {notice}
-        </p>
-      ) : null}
+      <Toast message={notice} onClear={clearNotice} />
       <ExerciseDetail
         exercise={exercise}
         onAddToPlan={setPendingExercise}
@@ -47,7 +45,7 @@ function ExerciseDetailPage() {
         exercise={pendingExercise}
         onClose={() => setPendingExercise(null)}
         onAdded={(item, day, result) =>
-          setNotice(
+          showNotice(
             result?.exists
               ? `${item.name} is already on ${day}.`
               : `Added ${item.name} to ${day}.`

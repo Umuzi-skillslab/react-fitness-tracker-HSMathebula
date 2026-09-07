@@ -15,8 +15,11 @@ function App() {
   // Navbar and footer wrap every route so layout stays consistent.
   return (
     <div className={styles.shell}>
+      <a href="#main-content" className={styles.skipLink}>
+        Skip to content
+      </a>
       <Navbar />
-      <main className={styles.page}>
+      <main id="main-content" className={styles.page} tabIndex={-1}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/exercises" element={<ExercisesPage />} />

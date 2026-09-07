@@ -1,21 +1,24 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { calculateVolume } from '../../utils/helpers';
+import { calculateVolume, formatDisplayDate, formatVolume } from '../../utils/helpers';
 import Button from '../UI/Button';
 import Card from '../UI/Card';
+import ConfirmDialog from '../UI/ConfirmDialog';
 import styles from './Log.module.css';
 
-function LogEntry({ log, onDelete }) {
+function LogEntry({ log, onDelete, onEdit }) {
   const navigate = useNavigate();
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const volume = calculateVolume(log.sets, log.reps, log.weight);
   const loadLabel = log.weight ? `${log.weight} kg` : 'bodyweight';
 
   return (
     <Card title={log.exerciseName} padding="1.25rem">
       <p className={styles.entryMeta}>
-        {log.date} · {log.sets} sets × {log.reps} reps · {loadLabel}
+        {formatDisplayDate(log.date)} · {log.sets} sets × {log.reps} reps · {loadLabel}
       </p>
-      <p className={styles.entryMeta}>Volume: {volume}</p>
+      <p className={styles.entryMeta}>Volume: {formatVolume(volume)}</p>
       <div className={styles.actions}>
         <Button
           variant="secondary"
@@ -23,10 +26,26 @@ function LogEntry({ log, onDelete }) {
         >
           View log
         </Button>
-        <Button variant="danger" onClick={() => onDelete(log.id)}>
+        {onEdit ? (
+          <Button variant="secondary" onClick={() => onEdit(log)}>
+            Edit
+          </Button>
+        ) : null}
+        <Button variant="danger" onClick={() => setConfirmOpen(true)}>
           Delete
         </Button>
       </div>
+      <ConfirmDialog
+        isOpen={confirmOpen}
+        title="Delete this log?"
+        message={`This will permanently delete the ${log.exerciseName} session from ${formatDisplayDate(log.date)}.`}
+        confirmLabel="Yes, delete"
+        onClose={() => setConfirmOpen(false)}
+        onConfirm={() => {
+          onDelete(log.id);
+          setConfirmOpen(false);
+        }}
+      />
     </Card>
   );
 }
@@ -41,6 +60,7 @@ LogEntry.propTypes = {
     weight: PropTypes.number,
   }).isRequired,
   onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func,
 };
 
 export default LogEntry;

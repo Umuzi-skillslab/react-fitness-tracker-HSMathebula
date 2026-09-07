@@ -1,25 +1,63 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { getTodayDate } from '../../utils/helpers';
+import { getLastLogForExercise, getTodayDate } from '../../utils/helpers';
 import Button from '../UI/Button';
 import styles from './Log.module.css';
 
-function LogForm({ exercises, initialExerciseId = '', onSubmit }) {
+function LogForm({
+  exercises,
+  initialExerciseId = '',
+  initialLog = null,
+  logs = [],
+  onSubmit,
+}) {
   const [exerciseId, setExerciseId] = useState(
-    initialExerciseId ? String(initialExerciseId) : ''
+    initialLog
+      ? String(initialLog.exerciseId ?? '')
+      : initialExerciseId
+        ? String(initialExerciseId)
+        : ''
   );
-  const [date, setDate] = useState(getTodayDate());
-  const [sets, setSets] = useState('3');
-  const [reps, setReps] = useState('10');
-  const [weight, setWeight] = useState('0');
+  const [date, setDate] = useState(initialLog?.date || getTodayDate());
+  const [sets, setSets] = useState(
+    initialLog ? String(initialLog.sets) : '3'
+  );
+  const [reps, setReps] = useState(
+    initialLog ? String(initialLog.reps) : '10'
+  );
+  const [weight, setWeight] = useState(
+    initialLog ? String(initialLog.weight ?? 0) : '0'
+  );
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // Prefill when the user arrives from the planner "Log workout" action.
+    if (initialLog) {
+      setExerciseId(String(initialLog.exerciseId ?? ''));
+      setDate(initialLog.date);
+      setSets(String(initialLog.sets));
+      setReps(String(initialLog.reps));
+      setWeight(String(initialLog.weight ?? 0));
+      return;
+    }
+
     if (initialExerciseId) {
       setExerciseId(String(initialExerciseId));
     }
-  }, [initialExerciseId]);
+  }, [initialExerciseId, initialLog]);
+
+  useEffect(() => {
+    if (initialLog || !exerciseId) {
+      return;
+    }
+
+    const last = getLastLogForExercise(logs, exerciseId);
+
+    if (last) {
+      setSets(String(last.sets));
+      setReps(String(last.reps));
+      setWeight(String(last.weight ?? 0));
+    }
+  }, [exerciseId, initialLog, logs]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -60,6 +98,14 @@ function LogForm({ exercises, initialExerciseId = '', onSubmit }) {
       reps: nextReps,
       weight: nextWeight,
     });
+
+    if (!initialLog) {
+      setExerciseId('');
+      setDate(getTodayDate());
+      setSets('3');
+      setReps('10');
+      setWeight('0');
+    }
   };
 
   // noValidate lets our error messages run instead of the browser's min/required UI.
@@ -132,7 +178,9 @@ function LogForm({ exercises, initialExerciseId = '', onSubmit }) {
       ) : null}
 
       <div className={`${styles.actions} ${styles.wide}`}>
-        <Button type="submit">Log workout</Button>
+        <Button type="submit">
+          {initialLog ? 'Save changes' : 'Log workout'}
+        </Button>
       </div>
     </form>
   );
@@ -146,6 +194,15 @@ LogForm.propTypes = {
     })
   ).isRequired,
   initialExerciseId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  initialLog: PropTypes.shape({
+    id: PropTypes.string,
+    exerciseId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    date: PropTypes.string,
+    sets: PropTypes.number,
+    reps: PropTypes.number,
+    weight: PropTypes.number,
+  }),
+  logs: PropTypes.arrayOf(PropTypes.object),
   onSubmit: PropTypes.func.isRequired,
 };
 

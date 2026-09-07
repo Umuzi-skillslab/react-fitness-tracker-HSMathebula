@@ -35,8 +35,9 @@ describe('WorkoutLog', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByRole('heading', { name: '2026-09-02' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /wed, 2 sep/i })).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /delete/i }));
+    await user.click(screen.getByRole('button', { name: /yes, delete/i }));
     expect(handleDelete).toHaveBeenCalledWith('log-1');
   });
 });

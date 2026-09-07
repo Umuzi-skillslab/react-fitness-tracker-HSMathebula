@@ -22,7 +22,29 @@ function useWorkoutLogs() {
     [setLogs]
   );
 
-  return { logs, addLog, deleteLog };
+  const updateLog = useCallback(
+    (logId, entry) => {
+      setLogs((current) =>
+        current.map((log) =>
+          log.id === logId
+            ? {
+                ...log,
+                exerciseId:
+                  entry.exerciseId == null ? log.exerciseId : Number(entry.exerciseId),
+                exerciseName: entry.exerciseName,
+                date: entry.date,
+                sets: Number(entry.sets),
+                reps: Number(entry.reps),
+                weight: Number(entry.weight) || 0,
+              }
+            : log
+        )
+      );
+    },
+    [setLogs]
+  );
+
+  return { logs, addLog, deleteLog, updateLog };
 }
 
 export default useWorkoutLogs;

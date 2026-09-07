@@ -23,7 +23,7 @@ describe('ProgressPage', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getAllByText('1440').length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/1440/).length).toBeGreaterThan(0);
     expect(screen.getByRole('img', { name: /daily workout volume/i })).toBeInTheDocument();
   });
 
@@ -39,7 +39,7 @@ describe('ProgressPage', () => {
       </MemoryRouter>
     );
 
-    await user.click(screen.getByRole('button', { name: /log another workout/i }));
+    await user.click(screen.getByRole('button', { name: /log your first workout/i }));
     expect(screen.getByText(/history page/i)).toBeInTheDocument();
   });
 });

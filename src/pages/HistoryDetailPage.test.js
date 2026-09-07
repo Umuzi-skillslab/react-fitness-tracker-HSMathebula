@@ -87,6 +87,7 @@ describe('HistoryDetailPage', () => {
 
     renderDetail('log-3');
     await user.click(screen.getByRole('button', { name: /delete log/i }));
+    await user.click(screen.getByRole('button', { name: /yes, delete/i }));
     expect(screen.getByText(/history list/i)).toBeInTheDocument();
   });
 });

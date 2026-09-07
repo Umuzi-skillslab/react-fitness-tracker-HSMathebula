@@ -197,6 +197,84 @@ export function getTodayDate() {
   return new Date().toISOString().slice(0, 10);
 }
 
+const SHORT_WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const SHORT_MONTHS = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
+
+export function formatDisplayDate(isoDate) {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(isoDate || ''));
+
+  if (!match) {
+    return isoDate || '';
+  }
+
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const date = new Date(year, month - 1, day);
+
+  if (Number.isNaN(date.getTime())) {
+    return isoDate;
+  }
+
+  return `${SHORT_WEEKDAYS[date.getDay()]}, ${day} ${SHORT_MONTHS[month - 1]}`;
+}
+
+export function formatVolume(volume) {
+  return `${volume} kg`;
+}
+
+export function getWeekdayName(date = new Date()) {
+  // WEEK_DAYS starts on Monday; Date#getDay starts on Sunday.
+  return WEEK_DAYS[(date.getDay() + 6) % 7];
+}
+
+export function countPlannedExercises(plan) {
+  return WEEK_DAYS.reduce(
+    (total, day) => total + (plan?.[day]?.length || 0),
+    0
+  );
+}
+
+export function getLastWorkoutDate(logs) {
+  if (!logs?.length) {
+    return '';
+  }
+
+  return [...logs].map((log) => log.date).sort().reverse()[0];
+}
+
+export function getLastLogForExercise(logs, exerciseId) {
+  if (!exerciseId) {
+    return undefined;
+  }
+
+  return (logs || []).find(
+    (log) => String(log.exerciseId) === String(exerciseId)
+  );
+}
+
+export function toggleExerciseDone(plan, day, exerciseId) {
+  return {
+    ...plan,
+    [day]: (plan[day] || []).map((item) =>
+      item.id === exerciseId ? { ...item, done: !item.done } : item
+    ),
+  };
+}
+
 export function cloneValue(value) {
   // Objects and arrays are cloned so persisted fallbacks are not mutated in place.
   if (Array.isArray(value) || (value && typeof value === 'object')) {

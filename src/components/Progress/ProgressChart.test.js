@@ -18,7 +18,7 @@ describe('ProgressChart', () => {
     );
 
     expect(screen.getByRole('img', { name: /daily workout volume/i })).toBeInTheDocument();
-    expect(screen.getByText('600')).toBeInTheDocument();
-    expect(screen.getByText('240')).toBeInTheDocument();
+    expect(screen.getByText(/600 kg/i)).toBeInTheDocument();
+    expect(screen.getByText(/240 kg/i)).toBeInTheDocument();
   });
 });

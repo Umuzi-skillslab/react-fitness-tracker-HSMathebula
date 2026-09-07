@@ -25,6 +25,11 @@ describe('ExercisesPage', () => {
     expect(
       screen.queryByRole('heading', { name: /barbell squat/i })
     ).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /cardio ×/i }));
+    expect(
+      await screen.findByRole('heading', { name: /barbell squat/i })
+    ).toBeInTheDocument();
   });
 
   test('shows an empty state when search has no matches', async () => {

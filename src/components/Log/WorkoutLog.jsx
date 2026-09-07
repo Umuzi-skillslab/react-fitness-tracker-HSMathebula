@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
-import { groupLogsByDate } from '../../utils/helpers';
+import { formatDisplayDate, groupLogsByDate } from '../../utils/helpers';
 import Card from '../UI/Card';
 import LogEntry from './LogEntry';
 import styles from './Log.module.css';
 
-function WorkoutLog({ logs, onDelete }) {
+function WorkoutLog({ logs, onDelete, onEdit }) {
   if (logs.length === 0) {
     return (
       <Card title="No workouts yet" elevated={false}>
@@ -21,9 +21,14 @@ function WorkoutLog({ logs, onDelete }) {
     <div className={styles.groups}>
       {dates.map((date) => (
         <section key={date}>
-          <h3 className={styles.groupTitle}>{date}</h3>
+          <h3 className={styles.groupTitle}>{formatDisplayDate(date)}</h3>
           {grouped[date].map((log) => (
-            <LogEntry key={log.id} log={log} onDelete={onDelete} />
+            <LogEntry
+              key={log.id}
+              log={log}
+              onDelete={onDelete}
+              onEdit={onEdit}
+            />
           ))}
         </section>
       ))}
@@ -34,6 +39,7 @@ function WorkoutLog({ logs, onDelete }) {
 WorkoutLog.propTypes = {
   logs: PropTypes.arrayOf(PropTypes.object).isRequired,
   onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func,
 };
 
 export default WorkoutLog;

@@ -7,7 +7,11 @@ import {
   createEmptyPlan,
   createWorkoutLog,
   filterExercises,
+  formatDisplayDate,
+  formatVolume,
   getExerciseById,
+  getLastLogForExercise,
+  getWeekdayName,
   getTodayDate,
   getUniqueValues,
   groupLogsByDate,
@@ -16,6 +20,7 @@ import {
   removeExerciseFromDay,
   saveToStorage,
   sortExercises,
+  toggleExerciseDone,
 } from './helpers';
 
 const sampleExercises = [
@@ -138,6 +143,17 @@ describe('planner and progress helpers', () => {
     expect(calculateVolume(3, 10, 20)).toBe(600);
     expect(computeProgressTotals(logs)).toEqual({ workouts: 2, volume: 840 });
     expect(Object.keys(groupLogsByDate(logs))).toEqual(['2026-09-01']);
+    expect(formatVolume(840)).toBe('840 kg');
+    expect(formatDisplayDate('2026-09-01')).toBe('Tue, 1 Sep');
+    expect(getLastLogForExercise(logs, 9)).toBeUndefined();
+    expect(WEEK_DAYS).toContain(getWeekdayName(new Date(2026, 8, 7)));
+    expect(
+      toggleExerciseDone(
+        { Monday: [{ id: 1, name: 'Squat', done: false }] },
+        'Monday',
+        1
+      ).Monday[0].done
+    ).toBe(true);
   });
 });
 

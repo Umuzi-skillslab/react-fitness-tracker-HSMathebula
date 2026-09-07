@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { calculateVolume, groupLogsByDate } from '../../utils/helpers';
+import { calculateVolume, formatDisplayDate, formatVolume, groupLogsByDate } from '../../utils/helpers';
 import styles from './Progress.module.css';
 
 function ProgressChart({ logs }) {
@@ -25,14 +25,14 @@ function ProgressChart({ logs }) {
 
         return (
           <div key={date} className={styles.column}>
-            <p className={styles.value}>{volumes[index]}</p>
+            <p className={styles.value}>{formatVolume(volumes[index])}</p>
             <div className={styles.barTrack}>
               <div
                 className={styles.bar}
                 style={{ '--bar-height': `${percent}%` }}
               />
             </div>
-            <p className={styles.label}>{date.slice(5)}</p>
+            <p className={styles.label}>{formatDisplayDate(date)}</p>
           </div>
         );
       })}

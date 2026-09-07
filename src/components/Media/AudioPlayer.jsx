@@ -3,6 +3,13 @@ import PropTypes from 'prop-types';
 import Button from '../UI/Button';
 import styles from './Media.module.css';
 
+function formatClock(seconds) {
+  const total = Number.isFinite(seconds) ? Math.max(0, Math.floor(seconds)) : 0;
+  const mins = Math.floor(total / 60);
+  const secs = String(total % 60).padStart(2, '0');
+  return `${mins}:${secs}`;
+}
+
 function AudioPlayer({
   tracks,
   heading = 'Workout motivation',
@@ -12,6 +19,8 @@ function AudioPlayer({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [error, setError] = useState('');
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
 
   const track = tracks[currentIndex];
 
@@ -26,17 +35,23 @@ function AudioPlayer({
     const handlePause = () => setIsPlaying(false);
     const handleError = () =>
       setError('This audio track could not be loaded.');
+    const handleTime = () => setCurrentTime(audio.currentTime || 0);
+    const handleMeta = () => setDuration(audio.duration || 0);
 
     audio.addEventListener('play', handlePlay);
     audio.addEventListener('pause', handlePause);
     audio.addEventListener('ended', handlePause);
     audio.addEventListener('error', handleError);
+    audio.addEventListener('timeupdate', handleTime);
+    audio.addEventListener('loadedmetadata', handleMeta);
 
     return () => {
       audio.removeEventListener('play', handlePlay);
       audio.removeEventListener('pause', handlePause);
       audio.removeEventListener('ended', handlePause);
       audio.removeEventListener('error', handleError);
+      audio.removeEventListener('timeupdate', handleTime);
+      audio.removeEventListener('loadedmetadata', handleMeta);
     };
   }, [track?.src]);
 
@@ -58,6 +73,8 @@ function AudioPlayer({
   const handleTrackChange = (event) => {
     setError('');
     setIsPlaying(false);
+    setCurrentTime(0);
+    setDuration(0);
     // Pause the current clip before swapping the source.
     audioRef.current?.pause();
     setCurrentIndex(Number(event.target.value));
@@ -79,14 +96,33 @@ function AudioPlayer({
       <audio
         key={track.src}
         ref={audioRef}
-        className={styles.audio}
+        className={`${styles.audio} ${styles.nativeHidden}`}
         src={track.src}
-        controls
         preload="metadata"
       >
         Your browser does not support audio playback. Open {track.src} to listen
         instead.
       </audio>
+      <div className={styles.scrubber}>
+        <input
+          type="range"
+          min="0"
+          max={duration || 0}
+          step="0.1"
+          value={currentTime}
+          aria-label="Audio progress"
+          onChange={(event) => {
+            const next = Number(event.target.value);
+            if (audioRef.current) {
+              audioRef.current.currentTime = next;
+            }
+            setCurrentTime(next);
+          }}
+        />
+        <p className={styles.time}>
+          {formatClock(currentTime)} / {formatClock(duration)}
+        </p>
+      </div>
       {tracks.length > 1 ? (
         <label className={styles.trackPicker}>
           Track

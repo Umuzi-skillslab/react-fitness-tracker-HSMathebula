@@ -4,7 +4,7 @@ import Header from '../components/common/Header';
 import Button from '../components/UI/Button';
 import Card from '../components/UI/Card';
 import useWorkoutLogs from '../hooks/useWorkoutLogs';
-import { computeProgressTotals, groupLogsByDate } from '../utils/helpers';
+import { computeProgressTotals, formatVolume, groupLogsByDate } from '../utils/helpers';
 import chartStyles from '../components/Progress/Progress.module.css';
 import styles from './pages.module.css';
 
@@ -13,6 +13,7 @@ function ProgressPage() {
   const { logs } = useWorkoutLogs();
   const totals = computeProgressTotals(logs);
   const dayCount = Object.keys(groupLogsByDate(logs)).length;
+  const isEmpty = logs.length === 0;
 
   return (
     <section>
@@ -23,24 +24,35 @@ function ProgressPage() {
         <p>Totals and daily volume come from the workouts you have logged.</p>
       </Header>
 
-      <div className={chartStyles.stats}>
-        <Card title="Workouts" padding="1.25rem">
-          <p className={chartStyles.statValue}>{totals.workouts}</p>
+      {isEmpty ? (
+        <Card title="No progress yet" padding="1.25rem">
+          <p>Log your first workout to see totals and a daily volume chart.</p>
+          <Button onClick={() => navigate('/history')}>Log your first workout</Button>
         </Card>
-        <Card title="Total volume" padding="1.25rem">
-          <p className={chartStyles.statValue}>{totals.volume}</p>
-        </Card>
-        <Card title="Training days" padding="1.25rem">
-          <p className={chartStyles.statValue}>{dayCount}</p>
-        </Card>
-      </div>
+      ) : (
+        <>
+          <div className={chartStyles.stats}>
+            <Card title="Workouts" padding="1.25rem">
+              <p className={chartStyles.statValue}>{totals.workouts}</p>
+            </Card>
+            <Card title="Total volume" padding="1.25rem">
+              <p className={chartStyles.statValue}>{formatVolume(totals.volume)}</p>
+            </Card>
+            <Card title="Training days" padding="1.25rem">
+              <p className={chartStyles.statValue}>{dayCount}</p>
+            </Card>
+          </div>
 
-      <Card title="Daily volume">
-        <ProgressChart logs={logs} />
-        <div className={styles.actions}>
-          <Button onClick={() => navigate('/history')}>Log another workout</Button>
-        </div>
-      </Card>
+          <Card title="Daily volume">
+            <ProgressChart logs={logs} />
+            <div className={styles.actions}>
+              <Button onClick={() => navigate('/history')}>
+                Log another workout
+              </Button>
+            </div>
+          </Card>
+        </>
+      )}
     </section>
   );
 }

@@ -86,6 +86,32 @@ describe('LogForm', () => {
     expect(handleSubmit).not.toHaveBeenCalled();
   });
 
+  test('prefills the last logged numbers for an exercise', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <LogForm
+        exercises={exercises}
+        logs={[
+          {
+            exerciseId: 2,
+            exerciseName: 'Push-Up',
+            date: '2026-09-01',
+            sets: 5,
+            reps: 8,
+            weight: 12,
+          },
+        ]}
+        onSubmit={jest.fn()}
+      />
+    );
+
+    await user.selectOptions(screen.getByLabelText(/exercise to log/i), '2');
+    expect(screen.getByLabelText(/^sets$/i)).toHaveValue(5);
+    expect(screen.getByLabelText(/^reps$/i)).toHaveValue(8);
+    expect(screen.getByLabelText(/weight in kilograms/i)).toHaveValue(12);
+  });
+
   test('rejects a negative weight', async () => {
     const user = userEvent.setup();
     const handleSubmit = jest.fn();

@@ -12,6 +12,7 @@ function ExerciseCard({
   showPreview = true,
 }) {
   const preview = exercise.instructions?.[0] || 'Form notes coming soon.';
+  const group = exercise.muscleGroup || exercise.category || 'Move';
 
   return (
     <Card
@@ -19,6 +20,13 @@ function ExerciseCard({
       isSelected={isSelected}
       padding={isSelected ? '1.25rem' : '1.5rem'}
     >
+      <div
+        className={styles.thumb}
+        data-group={group.toLowerCase().replace(/\s+/g, '-')}
+        aria-hidden="true"
+      >
+        <span>{group}</span>
+      </div>
       <div className={styles.meta}>
         <Badge label={exercise.difficulty} difficulty={exercise.difficulty} />
         <Badge label={exercise.category} />

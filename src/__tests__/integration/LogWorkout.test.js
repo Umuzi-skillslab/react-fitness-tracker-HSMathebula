@@ -26,7 +26,7 @@ describe('log-workout flow', () => {
     expect(screen.getByText(/3 sets × 8 reps/i)).toBeInTheDocument();
 
     await user.click(screen.getByRole('link', { name: /^progress$/i }));
-    expect(screen.getAllByText('1440').length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/1440/).length).toBeGreaterThan(0);
     expect(screen.getByRole('img', { name: /daily workout volume/i })).toBeInTheDocument();
   });
 });

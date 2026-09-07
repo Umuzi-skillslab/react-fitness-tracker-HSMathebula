@@ -26,11 +26,31 @@ describe('DayCard', () => {
 
     await user.click(screen.getByRole('button', { name: /log push-up from tuesday/i }));
     await user.click(screen.getByRole('button', { name: /remove push-up from tuesday/i }));
+    await user.click(screen.getByRole('button', { name: /yes, remove/i }));
 
     expect(handleLog).toHaveBeenCalledWith(
       expect.objectContaining({ id: 2, name: 'Push-Up' })
     );
     expect(handleRemove).toHaveBeenCalledWith('Tuesday', 2);
+  });
+
+  test('marks a planned exercise done on today', async () => {
+    const user = userEvent.setup();
+    const handleToggle = jest.fn();
+
+    render(
+      <DayCard
+        day="Monday"
+        isToday
+        exercises={[{ id: 2, name: 'Push-Up', done: false }]}
+        onRemove={jest.fn()}
+        onToggleDone={handleToggle}
+      />
+    );
+
+    expect(screen.getByText(/^today$/i)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /mark push-up done on monday/i }));
+    expect(handleToggle).toHaveBeenCalledWith('Monday', 2);
   });
 
   test('renders a planned exercise without optional badges or log action', () => {
