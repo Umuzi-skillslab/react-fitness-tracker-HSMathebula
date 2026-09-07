@@ -23,6 +23,11 @@ describe('Button', () => {
     expect(screen.getByRole('button', { name: /filter/i })).toBeEnabled();
   });
 
+  test('renders the accent variant for high-energy actions', () => {
+    render(<Button variant="accent">Start training</Button>);
+    expect(screen.getByRole('button', { name: /start training/i })).toBeEnabled();
+  });
+
   test('falls back to the primary style for an unknown variant', () => {
     render(<Button variant="mystery">Go</Button>);
     expect(screen.getByRole('button', { name: /go/i })).toBeInTheDocument();

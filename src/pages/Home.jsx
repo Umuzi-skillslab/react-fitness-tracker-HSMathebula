@@ -5,7 +5,6 @@ import AudioPlayer from '../components/Media/AudioPlayer';
 import AddToPlanModal from '../components/Planner/AddToPlanModal';
 import Header from '../components/common/Header';
 import Button from '../components/UI/Button';
-import Card from '../components/UI/Card';
 import SearchBar from '../components/UI/SearchBar';
 import { audioTracks, exercisesData } from '../data/exercisesData';
 import { filterExercises } from '../utils/helpers';
@@ -23,23 +22,66 @@ function Home() {
 
   return (
     <section>
-      <Header
-        title="Fitness Tracker"
-        subtitle={`${featured.length} featured moves`}
-        align="left"
-      >
-        <p>Build strength, plan your week, and track progress.</p>
-      </Header>
+      <section className={styles.hero} aria-label="Fitness Tracker">
+        <div className={styles.heroInner}>
+          <div className={styles.heroCopy}>
+            <p className={styles.eyebrow}>
+              <span className={styles.liveDot} aria-hidden="true" />
+              Train today
+            </p>
+            <Header
+              title="Fitness Tracker"
+              subtitle={`${featured.length} featured moves`}
+              align="left"
+            >
+              <p className={styles.heroLead}>
+                Build strength, plan your week, and track progress.
+              </p>
+            </Header>
+            <div className={styles.heroActions}>
+              <Button variant="accent" onClick={() => navigate('/exercises')}>
+                Start training
+              </Button>
+              <Button variant="secondary" onClick={() => navigate('/planner')}>
+                Plan your week
+              </Button>
+            </div>
+            <ul className={styles.heroStats}>
+              <li>
+                <strong>{featured.length}</strong>
+                Featured moves
+              </li>
+              <li>
+                <strong>7</strong>
+                Day planner
+              </li>
+              <li>
+                <strong>Log</strong>
+                Track volume
+              </li>
+            </ul>
+          </div>
+
+          <aside className={styles.heroMix}>
+            <p className={styles.mixKicker}>
+              <span className={styles.eq} aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </span>
+              Now playing
+            </p>
+            <h2 className={styles.mixTitle}>Motivation mix</h2>
+            <AudioPlayer tracks={audioTracks} variant="hero" />
+          </aside>
+        </div>
+      </section>
 
       {notice ? (
         <p className={styles.notice} role="status">
           {notice}
         </p>
       ) : null}
-
-      <Card title="Motivation mix" padding="1.25rem">
-        <AudioPlayer tracks={audioTracks} />
-      </Card>
 
       <div className={styles.toolbar}>
         <SearchBar

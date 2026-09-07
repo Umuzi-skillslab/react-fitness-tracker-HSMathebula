@@ -51,6 +51,15 @@
   background-color: #9b0e18;
 }
 
+.accent {
+  background-color: var(--color-accent);
+  color: #fff;
+}
+
+.accent:hover {
+  background-color: #c94d03;
+}
+
 .card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);

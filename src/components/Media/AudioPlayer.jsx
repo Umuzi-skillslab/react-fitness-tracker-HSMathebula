@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import Button from '../UI/Button';
 import styles from './Media.module.css';
 
-function AudioPlayer({ tracks, heading = 'Workout motivation' }) {
+function AudioPlayer({
+  tracks,
+  heading = 'Workout motivation',
+  variant = 'default',
+}) {
   const audioRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -64,7 +68,11 @@ function AudioPlayer({ tracks, heading = 'Workout motivation' }) {
   }
 
   return (
-    <div className={styles.player}>
+    <div
+      className={`${styles.player} ${
+        variant === 'hero' ? styles.playerHero : ''
+      }`}
+    >
       <p className={styles.trackLabel}>
         {heading}: {track.title}
       </p>
@@ -119,6 +127,7 @@ AudioPlayer.propTypes = {
     })
   ).isRequired,
   heading: PropTypes.string,
+  variant: PropTypes.oneOf(['default', 'hero']),
 };
 
 export default AudioPlayer;

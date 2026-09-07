@@ -26,7 +26,7 @@ function Button({
 
 Button.propTypes = {
   children: PropTypes.node.isRequired,
-  variant: PropTypes.oneOf(['primary', 'secondary', 'danger']),
+  variant: PropTypes.oneOf(['primary', 'secondary', 'danger', 'accent']),
   type: PropTypes.oneOf(['button', 'submit', 'reset']),
   onClick: PropTypes.func,
   disabled: PropTypes.bool,
