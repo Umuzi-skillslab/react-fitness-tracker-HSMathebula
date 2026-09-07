@@ -60,4 +60,17 @@ describe('ExercisesPage', () => {
       await screen.findByRole('heading', { name: /barbell squat/i })
     ).toBeInTheDocument();
   });
+
+  test('opens an exercise from the catalog', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <MemoryRouter>
+        <ExercisesPage />
+      </MemoryRouter>
+    );
+
+    const details = await screen.findAllByRole('button', { name: /view details/i });
+    await user.click(details[0]);
+  });
 });

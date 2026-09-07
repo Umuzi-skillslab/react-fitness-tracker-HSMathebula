@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { STORAGE_KEYS } from '../utils/helpers';
+import usePersistedState from './usePersistedState';
 import useWeeklyPlan from './useWeeklyPlan';
 import useWorkoutLogs from './useWorkoutLogs';
 
@@ -83,5 +84,23 @@ describe('persisted hooks', () => {
 
     await user.click(screen.getByRole('button', { name: /delete/i }));
     expect(screen.getByTestId('log-count')).toHaveTextContent('0');
+  });
+
+  test('accepts a direct state value from the setter', async () => {
+    const user = userEvent.setup();
+
+    function ValueProbe() {
+      const [value, setValue] = usePersistedState('probe-key', { n: 1 });
+      return (
+        <button type="button" onClick={() => setValue({ n: 5 })}>
+          {value.n}
+        </button>
+      );
+    }
+
+    render(<ValueProbe />);
+    await user.click(screen.getByRole('button', { name: '1' }));
+    expect(screen.getByRole('button', { name: '5' })).toBeInTheDocument();
+    expect(JSON.parse(localStorage.getItem('probe-key'))).toEqual({ n: 5 });
   });
 });

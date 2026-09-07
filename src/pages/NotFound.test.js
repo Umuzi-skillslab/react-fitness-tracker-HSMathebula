@@ -16,4 +16,16 @@ describe('NotFound', () => {
     expect(screen.getByRole('heading', { name: '404' })).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /go home/i }));
   });
+
+  test('can browse exercises from the 404 page', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <MemoryRouter>
+        <NotFound />
+      </MemoryRouter>
+    );
+
+    await user.click(screen.getByRole('button', { name: /browse exercises/i }));
+  });
 });

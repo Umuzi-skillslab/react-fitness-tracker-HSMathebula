@@ -34,4 +34,12 @@ describe('VideoPlayer', () => {
     await user.click(pauseButton);
     expect(window.HTMLMediaElement.prototype.pause).toHaveBeenCalled();
   });
+
+  test('shows an error when the video cannot load', () => {
+    render(<VideoPlayer src="/assets/videos/exercise-demo.mp4" />);
+    act(() => {
+      document.querySelector('video').dispatchEvent(new Event('error'));
+    });
+    expect(screen.getByRole('alert')).toHaveTextContent(/could not be loaded/i);
+  });
 });

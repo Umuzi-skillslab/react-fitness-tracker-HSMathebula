@@ -43,4 +43,28 @@ describe('Modal', () => {
     await user.keyboard('{Escape}');
     expect(handleClose).toHaveBeenCalledTimes(1);
   });
+
+  test('closes from the overlay and traps tab focus', async () => {
+    const user = userEvent.setup();
+    const handleClose = jest.fn();
+
+    render(
+      <Modal isOpen onClose={handleClose} title="Push-Up">
+        <button type="button">Inside action</button>
+      </Modal>
+    );
+
+    await user.click(screen.getByRole('heading', { name: /push-up/i }));
+    expect(handleClose).not.toHaveBeenCalled();
+
+    screen.getByRole('button', { name: /inside action/i }).focus();
+    await user.tab();
+    expect(screen.getByRole('button', { name: /close modal/i })).toHaveFocus();
+
+    await user.tab({ shift: true });
+    expect(screen.getByRole('button', { name: /inside action/i })).toHaveFocus();
+
+    await user.click(screen.getByRole('presentation'));
+    expect(handleClose).toHaveBeenCalledTimes(1);
+  });
 });

@@ -32,4 +32,17 @@ describe('DayCard', () => {
     );
     expect(handleRemove).toHaveBeenCalledWith('Tuesday', 2);
   });
+
+  test('renders a planned exercise without optional badges or log action', () => {
+    render(
+      <DayCard
+        day="Friday"
+        exercises={[{ id: 5, name: 'Jump Rope' }]}
+        onRemove={jest.fn()}
+      />
+    );
+
+    expect(screen.getByText(/jump rope/i)).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /log jump rope/i })).not.toBeInTheDocument();
+  });
 });

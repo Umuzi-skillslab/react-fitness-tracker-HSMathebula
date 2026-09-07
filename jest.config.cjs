@@ -18,6 +18,12 @@ module.exports = {
       functions: 70,
       lines: 70,
     },
+    './src/components/': {
+      statements: 70,
+      branches: 70,
+      functions: 70,
+      lines: 70,
+    },
   },
   transform: {
     '^.+\\.(js|jsx)$': 'babel-jest',

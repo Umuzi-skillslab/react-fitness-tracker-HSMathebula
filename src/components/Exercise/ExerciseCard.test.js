@@ -39,4 +39,16 @@ describe('ExerciseCard', () => {
     expect(handleSelect).toHaveBeenCalledWith(exercise);
     expect(handleAdd).toHaveBeenCalledWith(exercise);
   });
+
+  test('shows fallback preview text when instructions are missing', () => {
+    render(
+      <ExerciseCard
+        exercise={{ ...exercise, instructions: [] }}
+        onSelect={jest.fn()}
+      />
+    );
+
+    expect(screen.getByText(/form notes coming soon/i)).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /add to planner/i })).not.toBeInTheDocument();
+  });
 });

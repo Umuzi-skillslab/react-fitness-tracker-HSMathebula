@@ -22,4 +22,9 @@ describe('Button', () => {
 
     expect(screen.getByRole('button', { name: /filter/i })).toBeEnabled();
   });
+
+  test('falls back to the primary style for an unknown variant', () => {
+    render(<Button variant="mystery">Go</Button>);
+    expect(screen.getByRole('button', { name: /go/i })).toBeInTheDocument();
+  });
 });

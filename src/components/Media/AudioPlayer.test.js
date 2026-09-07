@@ -51,4 +51,12 @@ describe('AudioPlayer', () => {
     render(<AudioPlayer tracks={[]} />);
     expect(screen.getByText(/no motivation tracks are available/i)).toBeInTheDocument();
   });
+
+  test('shows an error when audio cannot load', () => {
+    render(<AudioPlayer tracks={tracks} />);
+    act(() => {
+      document.querySelector('audio').dispatchEvent(new Event('error'));
+    });
+    expect(screen.getByRole('alert')).toHaveTextContent(/could not be loaded/i);
+  });
 });

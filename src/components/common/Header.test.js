@@ -13,4 +13,11 @@ describe('Header', () => {
     expect(screen.getByText(/12 movements/i)).toBeInTheDocument();
     expect(screen.getByText(/browse the catalog/i)).toBeInTheDocument();
   });
+
+  test('renders without a subtitle and falls back for unknown align', () => {
+    render(<Header title="FitTrack" align="wide" />);
+
+    expect(screen.getByRole('heading', { name: /fittrack/i })).toBeInTheDocument();
+    expect(screen.queryByText(/movements/i)).not.toBeInTheDocument();
+  });
 });

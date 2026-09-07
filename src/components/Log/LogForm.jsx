@@ -62,7 +62,7 @@ function LogForm({ exercises, initialExerciseId = '', onSubmit }) {
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form className={styles.form} onSubmit={handleSubmit} noValidate>
       <label className={`${styles.field} ${styles.wide}`}>
         Exercise
         <select

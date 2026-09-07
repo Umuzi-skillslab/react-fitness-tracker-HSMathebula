@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import ProgressPage from './ProgressPage';
 import { STORAGE_KEYS, saveToStorage } from '../utils/helpers';
 
@@ -24,5 +25,21 @@ describe('ProgressPage', () => {
 
     expect(screen.getAllByText('1440').length).toBeGreaterThan(0);
     expect(screen.getByRole('img', { name: /daily workout volume/i })).toBeInTheDocument();
+  });
+
+  test('links back to the history logger', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <MemoryRouter initialEntries={['/progress']}>
+        <Routes>
+          <Route path="/progress" element={<ProgressPage />} />
+          <Route path="/history" element={<p>History page</p>} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    await user.click(screen.getByRole('button', { name: /log another workout/i }));
+    expect(screen.getByText(/history page/i)).toBeInTheDocument();
   });
 });

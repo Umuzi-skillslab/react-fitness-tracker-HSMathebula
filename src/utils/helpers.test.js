@@ -155,4 +155,18 @@ describe('localStorage helpers', () => {
   test('returns the fallback when a key is missing', () => {
     expect(loadFromStorage('missing', createEmptyPlan()).Friday).toEqual([]);
   });
+
+  test('returns the fallback when stored JSON is invalid', () => {
+    localStorage.setItem('broken', '{not-json');
+    expect(loadFromStorage('broken', 'fallback')).toBe('fallback');
+  });
+
+  test('returns false when storage writes fail', () => {
+    const spy = jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new Error('quota');
+    });
+
+    expect(saveToStorage('plan', { Monday: [] })).toBe(false);
+    spy.mockRestore();
+  });
 });

@@ -16,9 +16,12 @@ function renderDetail(logId) {
 }
 
 describe('HistoryDetailPage', () => {
-  test('shows a missing state for an unknown log', () => {
+  test('shows a missing state for an unknown log', async () => {
+    const user = userEvent.setup();
     renderDetail('missing');
     expect(screen.getByRole('heading', { name: /log not found/i })).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /back to history/i }));
+    expect(screen.getByText(/history list/i)).toBeInTheDocument();
   });
 
   test('renders a saved log and can return to history', async () => {
@@ -38,6 +41,52 @@ describe('HistoryDetailPage', () => {
 
     expect(screen.getByText(/workout log #log-1/i)).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /back to history/i }));
+    expect(screen.getByText(/history list/i)).toBeInTheDocument();
+  });
+
+  test('opens progress and can delete a saved log', async () => {
+    const user = userEvent.setup();
+    saveToStorage(STORAGE_KEYS.WORKOUT_LOGS, [
+      {
+        id: 'log-2',
+        date: '2026-09-02',
+        exerciseName: 'Deadlift',
+        sets: 3,
+        reps: 5,
+        weight: 80,
+      },
+    ]);
+
+    render(
+      <MemoryRouter initialEntries={['/history/log-2']}>
+        <Routes>
+          <Route path="/history/:logId" element={<HistoryDetailPage />} />
+          <Route path="/progress" element={<p>Progress page</p>} />
+          <Route path="/history" element={<p>History list</p>} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    expect(screen.getByText(/80 kg/i)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /see progress/i }));
+    expect(screen.getByText(/progress page/i)).toBeInTheDocument();
+  });
+
+  test('deletes a saved log and returns to history', async () => {
+    const user = userEvent.setup();
+    saveToStorage(STORAGE_KEYS.WORKOUT_LOGS, [
+      {
+        id: 'log-3',
+        date: '2026-09-03',
+        exerciseName: 'Plank',
+        sets: 3,
+        reps: 30,
+        weight: 0,
+      },
+    ]);
+
+    renderDetail('log-3');
+    await user.click(screen.getByRole('button', { name: /delete log/i }));
     expect(screen.getByText(/history list/i)).toBeInTheDocument();
   });
 });

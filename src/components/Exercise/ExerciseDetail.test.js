@@ -63,4 +63,20 @@ describe('ExerciseDetail', () => {
     expect(handleAdd).toHaveBeenCalledWith(exercise);
     expect(handleBack).toHaveBeenCalled();
   });
+
+  test('closes the checklist from the modal', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <ExerciseDetail
+        exercise={{ ...exercise, instructions: [...exercise.instructions, 'Drive through the heels.', 'Stand tall.'] }}
+        onAddToPlan={jest.fn()}
+        onBack={jest.fn()}
+      />
+    );
+
+    await user.click(screen.getByRole('button', { name: /open checklist/i }));
+    await user.click(screen.getByRole('button', { name: /^close$/i }));
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
 });

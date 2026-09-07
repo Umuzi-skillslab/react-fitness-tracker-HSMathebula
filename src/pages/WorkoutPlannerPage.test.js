@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
+import App from '../App';
 import WorkoutPlannerPage from './WorkoutPlannerPage';
 
 describe('WorkoutPlannerPage', () => {
@@ -33,5 +34,20 @@ describe('WorkoutPlannerPage', () => {
 
     await user.click(screen.getByRole('button', { name: /add to day/i }));
     expect(screen.getByRole('status')).toHaveTextContent(/choose an exercise to add/i);
+  });
+
+  test('opens history to log a planned exercise', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <MemoryRouter initialEntries={['/planner']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    await user.selectOptions(screen.getByLabelText(/planner exercise/i), '2');
+    await user.click(screen.getByRole('button', { name: /add to day/i }));
+    await user.click(screen.getByRole('button', { name: /log push-up from monday/i }));
+    expect(screen.getByRole('heading', { name: /workout history/i })).toBeInTheDocument();
   });
 });

@@ -13,4 +13,23 @@ describe('SearchBar', () => {
     expect(handleChange).toHaveBeenCalled();
     expect(screen.getByPlaceholderText(/search exercises/i)).toBeInTheDocument();
   });
+
+  test('notifies parent focus and blur handlers', async () => {
+    const user = userEvent.setup();
+    const handleFocus = jest.fn();
+    const handleBlur = jest.fn();
+
+    render(
+      <>
+        <SearchBar value="" onChange={jest.fn()} onFocus={handleFocus} onBlur={handleBlur} />
+        <button type="button">Away</button>
+      </>
+    );
+
+    await user.click(screen.getByRole('searchbox'));
+    expect(handleFocus).toHaveBeenCalled();
+
+    await user.click(screen.getByRole('button', { name: /away/i }));
+    expect(handleBlur).toHaveBeenCalled();
+  });
 });

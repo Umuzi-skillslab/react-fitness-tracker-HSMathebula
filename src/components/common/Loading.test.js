@@ -6,4 +6,9 @@ describe('Loading', () => {
     render(<Loading message="Loading exercise catalog..." isOverlay size={40} />);
     expect(screen.getByRole('status')).toHaveTextContent(/loading exercise catalog/i);
   });
+
+  test('renders the default message without an overlay', () => {
+    render(<Loading />);
+    expect(screen.getByRole('status')).toHaveTextContent(/loading/i);
+  });
 });
