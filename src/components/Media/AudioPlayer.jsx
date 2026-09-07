@@ -54,6 +54,7 @@ function AudioPlayer({ tracks, heading = 'Workout motivation' }) {
   const handleTrackChange = (event) => {
     setError('');
     setIsPlaying(false);
+    // Pause the current clip before swapping the source.
     audioRef.current?.pause();
     setCurrentIndex(Number(event.target.value));
   };

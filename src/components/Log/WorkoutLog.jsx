@@ -13,6 +13,7 @@ function WorkoutLog({ logs, onDelete }) {
     );
   }
 
+  // Newest dates first so the latest session is at the top.
   const grouped = groupLogsByDate(logs);
   const dates = Object.keys(grouped).sort().reverse();
 

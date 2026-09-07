@@ -9,6 +9,7 @@ function SearchBar({
   onFocus,
   onBlur,
 }) {
+  // Local focus state drives the ring; the parent still owns the query string.
   const [isFocused, setIsFocused] = useState(false);
 
   const handleFocus = (event) => {
@@ -21,6 +22,13 @@ function SearchBar({
     onBlur?.(event);
   };
 
+  const handleKeyDown = (event) => {
+    // Escape clears the controlled query so the parent list can reset.
+    if (event.key === 'Escape' && value) {
+      onChange({ target: { value: '' } });
+    }
+  };
+
   return (
     <label className={`${styles.search} ${isFocused ? styles.searchFocused : ''}`}>
       <span className={styles.visuallyHidden}>Search</span>
@@ -31,6 +39,7 @@ function SearchBar({
         onChange={onChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
       />
     </label>
   );

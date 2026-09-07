@@ -8,6 +8,7 @@ function useWorkoutLogs() {
   const addLog = useCallback(
     (entry) => {
       const nextLog = createWorkoutLog(entry);
+      // Newest sessions appear first in history.
       setLogs((current) => [nextLog, ...current]);
       return nextLog;
     },

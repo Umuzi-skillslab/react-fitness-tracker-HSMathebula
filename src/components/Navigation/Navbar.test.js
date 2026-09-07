@@ -43,4 +43,21 @@ describe('Navbar', () => {
     await user.click(toggle);
     expect(toggle).toHaveAttribute('aria-expanded', 'true');
   });
+
+  test('closes the mobile menu when Escape is pressed', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <MemoryRouter>
+        <Navbar />
+      </MemoryRouter>
+    );
+
+    const toggle = screen.getByRole('button', { name: /toggle navigation/i });
+    await user.click(toggle);
+    expect(toggle).toHaveAttribute('aria-expanded', 'true');
+
+    await user.keyboard('{Escape}');
+    expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  });
 });

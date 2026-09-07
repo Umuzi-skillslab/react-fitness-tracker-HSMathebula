@@ -37,6 +37,7 @@ function HistoryPage() {
         <Card title="Log a workout" padding="1.25rem">
           <LogForm
             exercises={exercisesData}
+            // Planner "Log workout" navigates here with the chosen exercise id.
             initialExerciseId={location.state?.exerciseId}
             onSubmit={handleSubmit}
           />

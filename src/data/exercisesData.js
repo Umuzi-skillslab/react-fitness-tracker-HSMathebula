@@ -1,5 +1,30 @@
-// Shared CC0 clip used until per-exercise recordings are added.
-const DEMO_VIDEO_URL = '/assets/videos/exercise-demo.mp4';
+// Unique CC demonstration clips from Wikimedia Commons (FitnessScape and related).
+// A few movements use the closest public clip when an exact match is not available.
+const VIDEO = {
+  squat:
+    'https://upload.wikimedia.org/wikipedia/commons/5/5c/Squat_-_exercise_demonstration_video.webm',
+  benchPress:
+    'https://upload.wikimedia.org/wikipedia/commons/d/df/Bench_press_-_exercise_demonstration_video.webm',
+  deadlift:
+    'https://upload.wikimedia.org/wikipedia/commons/6/62/Deadlift_-_exercise_demonstration_video.webm',
+  legRaises:
+    'https://upload.wikimedia.org/wikipedia/commons/b/bf/Leg_raises_-_exercise_demonstration_video.webm',
+  jumpingJacks:
+    'https://upload.wikimedia.org/wikipedia/commons/5/57/Jumping_jacks_and_burpees.webm',
+  shoulderPress:
+    'https://upload.wikimedia.org/wikipedia/commons/6/69/Shoulder_press_-_exercise_demonstration_video.webm',
+  burpee: 'https://upload.wikimedia.org/wikipedia/commons/3/39/Burpee.webm',
+  pullUps:
+    'https://upload.wikimedia.org/wikipedia/commons/1/15/Pull-ups_-_exercise_demonstration_video.webm',
+  singleLegSquat:
+    'https://upload.wikimedia.org/wikipedia/commons/1/16/Basic_single_leg_squat.webm',
+  hangingCrunches:
+    'https://upload.wikimedia.org/wikipedia/commons/5/5e/Hanging_crunches_-_exercise_demonstration_video.webm',
+  yogaTree:
+    'https://upload.wikimedia.org/wikipedia/commons/8/8b/Yoga_with_Modi%E2%80%94Vrikshasana_%28English%29.webm',
+  bentOverRow:
+    'https://upload.wikimedia.org/wikipedia/commons/b/b2/Bent-over_row_-_exercise_demonstration_video.webm',
+};
 
 export const exercisesData = [
   {
@@ -14,7 +39,7 @@ export const exercisesData = [
       'Lower until your thighs are at least parallel to the floor.',
       'Drive through your heels to stand tall without locking your knees.',
     ],
-    videoUrl: DEMO_VIDEO_URL,
+    videoUrl: VIDEO.squat,
     imageUrl: '/assets/images/barbell-squat.svg',
   },
   {
@@ -29,7 +54,7 @@ export const exercisesData = [
       'Lower your chest toward the floor with elbows at about 45 degrees.',
       'Press back up until your arms are straight.',
     ],
-    videoUrl: DEMO_VIDEO_URL,
+    videoUrl: VIDEO.benchPress,
     imageUrl: '/assets/images/push-up.svg',
   },
   {
@@ -44,7 +69,7 @@ export const exercisesData = [
       'Push the floor away and stand up, keeping the bar close to your body.',
       'Lower the bar with control by pushing your hips back.',
     ],
-    videoUrl: DEMO_VIDEO_URL,
+    videoUrl: VIDEO.deadlift,
     imageUrl: '/assets/images/deadlift.svg',
   },
   {
@@ -59,7 +84,7 @@ export const exercisesData = [
       'Keep your hips level so your body forms a straight line.',
       'Hold the position while breathing steadily.',
     ],
-    videoUrl: DEMO_VIDEO_URL,
+    videoUrl: VIDEO.legRaises,
     imageUrl: '/assets/images/plank.svg',
   },
   {
@@ -74,7 +99,7 @@ export const exercisesData = [
       'Jump just high enough for the rope to pass under your feet.',
       'Land softly on the balls of your feet and stay light.',
     ],
-    videoUrl: DEMO_VIDEO_URL,
+    videoUrl: VIDEO.jumpingJacks,
     imageUrl: '/assets/images/jump-rope.svg',
   },
   {
@@ -89,7 +114,7 @@ export const exercisesData = [
       'Press the bar straight overhead until your arms lock out.',
       'Lower the bar back to your shoulders with control.',
     ],
-    videoUrl: DEMO_VIDEO_URL,
+    videoUrl: VIDEO.shoulderPress,
     imageUrl: '/assets/images/overhead-press.svg',
   },
   {
@@ -104,7 +129,7 @@ export const exercisesData = [
       'Perform a push-up, then jump your feet forward.',
       'Explode upward into a jump and repeat.',
     ],
-    videoUrl: DEMO_VIDEO_URL,
+    videoUrl: VIDEO.burpee,
     imageUrl: '/assets/images/burpee.svg',
   },
   {
@@ -119,7 +144,7 @@ export const exercisesData = [
       'Pull your chest toward the bar by driving your elbows down.',
       'Lower yourself under control until your arms are straight.',
     ],
-    videoUrl: DEMO_VIDEO_URL,
+    videoUrl: VIDEO.pullUps,
     imageUrl: '/assets/images/pull-up.svg',
   },
   {
@@ -134,7 +159,7 @@ export const exercisesData = [
       'Keep your front knee stacked over your ankle.',
       'Push through the front heel to return to standing.',
     ],
-    videoUrl: DEMO_VIDEO_URL,
+    videoUrl: VIDEO.singleLegSquat,
     imageUrl: '/assets/images/reverse-lunge.svg',
   },
   {
@@ -149,7 +174,7 @@ export const exercisesData = [
       'Rotate your torso and bring the opposite elbow toward the opposite knee.',
       'Switch sides in a slow, controlled pedaling motion.',
     ],
-    videoUrl: DEMO_VIDEO_URL,
+    videoUrl: VIDEO.hangingCrunches,
     imageUrl: '/assets/images/bicycle-crunch.svg',
   },
   {
@@ -164,7 +189,7 @@ export const exercisesData = [
       'Press your heels toward the floor and relax your neck.',
       'Hold the stretch while keeping a long spine.',
     ],
-    videoUrl: DEMO_VIDEO_URL,
+    videoUrl: VIDEO.yogaTree,
     imageUrl: '/assets/images/downward-dog.svg',
   },
   {
@@ -179,7 +204,7 @@ export const exercisesData = [
       'Pull the weights toward your ribs and squeeze your shoulder blades.',
       'Lower the weights with control without rounding your back.',
     ],
-    videoUrl: DEMO_VIDEO_URL,
+    videoUrl: VIDEO.bentOverRow,
     imageUrl: '/assets/images/bent-over-row.svg',
   },
 ];

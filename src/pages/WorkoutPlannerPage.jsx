@@ -12,6 +12,7 @@ import pageStyles from './pages.module.css';
 
 function WorkoutPlannerPage() {
   const navigate = useNavigate();
+  // Plan is lifted into this hook so Home, library, and this page share one store.
   const { plan, addExercise, removeExercise } = useWeeklyPlan();
   const [day, setDay] = useState('Monday');
   const [exerciseId, setExerciseId] = useState('');

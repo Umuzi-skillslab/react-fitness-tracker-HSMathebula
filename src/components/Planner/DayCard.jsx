@@ -15,6 +15,7 @@ function DayCard({ day, exercises, onRemove, onLog }) {
         <p className={styles.count}>{countLabel}</p>
       </div>
 
+      {/* Empty days still render so the full week is visible. */}
       {exercises.length === 0 ? (
         <p className={styles.empty}>No exercises planned.</p>
       ) : (

@@ -13,6 +13,7 @@ function useWeeklyPlan() {
     STORAGE_KEYS.WEEKLY_PLAN,
     createEmptyPlan()
   );
+  // Always expose a full Monday–Sunday object, even if storage is incomplete.
   const plan = normalizePlan(storedPlan);
 
   const addExercise = useCallback(

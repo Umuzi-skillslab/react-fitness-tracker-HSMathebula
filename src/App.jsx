@@ -12,6 +12,7 @@ import WorkoutPlannerPage from './pages/WorkoutPlannerPage';
 import styles from './App.module.css';
 
 function App() {
+  // Navbar and footer wrap every route so layout stays consistent.
   return (
     <div className={styles.shell}>
       <Navbar />

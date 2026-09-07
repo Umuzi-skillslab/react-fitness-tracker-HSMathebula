@@ -18,6 +18,7 @@ function Home() {
   const [notice, setNotice] = useState('');
   const navigate = useNavigate();
 
+  // Home only highlights three matches so the catalog stays the full library.
   const featured = filterExercises(exercisesData, { search: query }).slice(0, 3);
 
   return (

@@ -6,6 +6,7 @@ import App from './App.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    {/* BrowserRouter must wrap App so pages can use Link, NavLink, and useNavigate. */}
     <BrowserRouter>
       <App />
     </BrowserRouter>

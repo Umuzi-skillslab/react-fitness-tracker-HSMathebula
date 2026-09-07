@@ -9,7 +9,8 @@
   max-height: 22rem;
   border-radius: calc(var(--radius) - 4px);
   background: #0f1c18;
-  object-fit: cover;
+  min-height: 14rem;
+  object-fit: contain;
 }
 
 .audio {

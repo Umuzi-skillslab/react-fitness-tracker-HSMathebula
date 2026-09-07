@@ -32,4 +32,18 @@ describe('SearchBar', () => {
     await user.click(screen.getByRole('button', { name: /away/i }));
     expect(handleBlur).toHaveBeenCalled();
   });
+
+  test('clears the query when Escape is pressed', async () => {
+    const user = userEvent.setup();
+    const handleChange = jest.fn();
+
+    render(<SearchBar value="squat" onChange={handleChange} />);
+
+    screen.getByRole('searchbox').focus();
+    await user.keyboard('{Escape}');
+
+    expect(handleChange).toHaveBeenCalledWith(
+      expect.objectContaining({ target: { value: '' } })
+    );
+  });
 });

@@ -20,6 +20,7 @@ function ProgressChart({ logs }) {
   return (
     <div className={styles.chart} role="img" aria-label="Daily workout volume">
       {dates.map((date, index) => {
+        // Floor at 4% so quiet days still show a visible bar.
         const percent = Math.max((volumes[index] / maxVolume) * 100, 4);
 
         return (

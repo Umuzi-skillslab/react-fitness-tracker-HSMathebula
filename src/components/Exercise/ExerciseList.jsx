@@ -11,6 +11,7 @@ function ExerciseList({
   emptyMessage = 'No exercises match your search.',
 }) {
   if (exercises.length === 0) {
+    // Search and filter can yield zero results; keep the layout with an empty card.
     return (
       <Card title="No matches" elevated={false} padding="1.25rem">
         <p>{emptyMessage}</p>

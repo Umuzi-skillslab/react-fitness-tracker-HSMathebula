@@ -16,6 +16,7 @@ function ExerciseDetailPage() {
   const [notice, setNotice] = useState('');
   const exercise = getExerciseById(exercisesData, id);
 
+  // Dynamic /exercises/:id still needs a fallback when the id is not in the catalog.
   if (!exercise) {
     return (
       <section>

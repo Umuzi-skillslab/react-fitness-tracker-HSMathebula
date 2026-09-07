@@ -15,6 +15,7 @@ function LogForm({ exercises, initialExerciseId = '', onSubmit }) {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    // Prefill when the user arrives from the planner "Log workout" action.
     if (initialExerciseId) {
       setExerciseId(String(initialExerciseId));
     }
@@ -61,6 +62,7 @@ function LogForm({ exercises, initialExerciseId = '', onSubmit }) {
     });
   };
 
+  // noValidate lets our error messages run instead of the browser's min/required UI.
   return (
     <form className={styles.form} onSubmit={handleSubmit} noValidate>
       <label className={`${styles.field} ${styles.wide}`}>

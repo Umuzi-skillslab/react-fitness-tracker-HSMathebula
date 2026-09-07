@@ -12,53 +12,58 @@ function Modal({
   const dialogRef = useRef(null);
   const previouslyFocused = useRef(null);
 
+  const getFocusable = () =>
+    dialogRef.current?.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+
+  const handleKeyDown = (event) => {
+    // Escape closes the dialog; Tab cycles inside it instead of the page behind.
+    if (event.key === 'Escape') {
+      onClose();
+      return;
+    }
+
+    if (event.key !== 'Tab') {
+      return;
+    }
+
+    const focusable = getFocusable();
+    const first = focusable?.[0];
+    const last = focusable?.[focusable.length - 1];
+
+    if (!first || !last) {
+      return;
+    }
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  };
+
   useEffect(() => {
     if (!isOpen) {
       return undefined;
     }
 
     previouslyFocused.current = document.activeElement;
-    const dialog = dialogRef.current;
-    const focusable = dialog?.querySelectorAll(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    );
-    const first = focusable?.[0];
-    const last = focusable?.[focusable.length - 1];
-
-    first?.focus();
-
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') {
-        onClose();
-        return;
-      }
-
-      if (event.key !== 'Tab' || !first || !last) {
-        return;
-      }
-
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
+    getFocusable()?.[0]?.focus();
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
       previouslyFocused.current?.focus?.();
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   if (!isOpen) {
     return null;
   }
 
   const handleOverlayClick = (event) => {
+    // Ignore clicks on the dialog itself so selecting text does not close it.
     if (event.target === event.currentTarget) {
       onClose();
     }
@@ -72,6 +77,8 @@ function Modal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
+        tabIndex={-1}
+        onKeyDown={handleKeyDown}
         style={{ '--modal-max-width': maxWidth }}
       >
         <div className={styles.modalHeader}>

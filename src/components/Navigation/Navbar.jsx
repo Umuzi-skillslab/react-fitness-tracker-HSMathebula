@@ -13,10 +13,17 @@ const links = [
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Close the mobile drawer after a route change so it does not stay overlayed.
   const closeMenu = () => setIsOpen(false);
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Escape' && isOpen) {
+      setIsOpen(false);
+    }
+  };
+
   return (
-    <header className={styles.header}>
+    <header className={styles.header} onKeyDown={handleKeyDown}>
       <div className={styles.inner}>
         <NavLink to="/" className={styles.brand} onClick={closeMenu}>
           FitTrack

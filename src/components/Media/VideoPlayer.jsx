@@ -19,10 +19,15 @@ function VideoPlayer({
       return undefined;
     }
 
+    setError('');
+    setIsPlaying(false);
+
     const handlePlay = () => setIsPlaying(true);
     const handlePause = () => setIsPlaying(false);
     const handleError = () =>
       setError('This demonstration video could not be loaded.');
+
+    // Keep the custom Play/Pause label in sync with native video controls.
 
     video.addEventListener('play', handlePlay);
     video.addEventListener('pause', handlePause);

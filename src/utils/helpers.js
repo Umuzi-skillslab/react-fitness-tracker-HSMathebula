@@ -91,6 +91,7 @@ export function saveToStorage(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
     return true;
   } catch {
+    // Quota errors or private-mode blocks should fail quietly.
     return false;
   }
 }
@@ -126,6 +127,7 @@ export function computeProgressTotals(logs) {
 export function normalizePlan(stored) {
   const empty = createEmptyPlan();
 
+  // Old or partial storage still needs every weekday key.
   if (!stored || typeof stored !== 'object') {
     return empty;
   }
@@ -140,6 +142,7 @@ export function normalizePlan(stored) {
 export function addExerciseToDay(plan, day, exercise) {
   const current = plan[day] || [];
 
+  // Skip duplicates so the same movement is not listed twice on one day.
   if (current.some((item) => item.id === exercise.id)) {
     return plan;
   }
@@ -167,6 +170,7 @@ export function removeExerciseFromDay(plan, day, exerciseId) {
 }
 
 export function createLogId() {
+  // Timestamp plus a short random suffix keeps ids unique enough for this app.
   return `log-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
@@ -194,6 +198,7 @@ export function getTodayDate() {
 }
 
 export function cloneValue(value) {
+  // Objects and arrays are cloned so persisted fallbacks are not mutated in place.
   if (Array.isArray(value) || (value && typeof value === 'object')) {
     return JSON.parse(JSON.stringify(value));
   }

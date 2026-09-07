@@ -14,6 +14,7 @@ function AddToPlanModal({ exercise, onClose, onAdded }) {
     return null;
   }
 
+  // Same movement can live on other days, but not twice on the selected day.
   const alreadyPlanned = (plan[day] || []).some((item) => item.id === exercise.id);
 
   const handleAdd = () => {
